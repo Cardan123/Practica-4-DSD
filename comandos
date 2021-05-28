@@ -1,0 +1,6 @@
+docker exec -it 2492566f62b2 psql -U postgres
+bcdedit /set hypervisorlaunchtype off #Apagar Hyper V
+
+#Activar Hyper V
+dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All
+bcdedit /set hypervisorlaunchtype auto #
