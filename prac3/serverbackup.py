@@ -15,7 +15,7 @@ import os
 # conection drive to postgresql
 import psycopg2
 
-json_filename = 'books.json'
+#MAIN SERVER
 clientThreads = []  # List of client threads
 clientIPs = []  # List of client IPs
 clientConnections = []  # List of clients connection tuple
@@ -23,16 +23,18 @@ clientClockSpeeds = [0, 0, 0, 0]  # Speed of each clock
 masterClockSpeed = 0
 factor = 1.0
 
+#DATA FROM BOOKS REQUEST
 clientThreadsBook = []  # List of client threads
 clientIPsBooks = []  # List of client IPs
 clientConnectionsBooks = []  # List of clients connection tuple
 factor2 = 1.0
 pause = False  # Pause flag fors master clock
 
+#DATA FROM RESET REQUEST
+clientIPsReset = []  # List of client IPs
+clientConnectionsReset = []  # List of clients connection tuple
+clientThreadsReset = []  # List of client threads
 
-clientIPsBooks3 = []  # List of client IPs
-clientConnectionsBooks3 = []  # List of clients connection tuple
-clientThreadsBook3 = []  # List of client threads
 books = [
     {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
         'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
@@ -106,6 +108,7 @@ def sendBookInfo(connection):
     print(clientConnectionsBooks[connection].getsockname()[0])
     print(clientConnectionsBooks[connection].getsockname()[1])
     if lengBooks >= 1:
+        #i=random.randint(0, lengBooks)
         i = 0
         book = books[i]['name']
         image = books[i]['portada']
@@ -118,9 +121,9 @@ def sendBookInfo(connection):
         iprequest = clientConnectionsBooks[connection].getsockname()[0]
         # connect to database each request, you have to create a PostgreSQL
         conn = psycopg2.connect(
-            dbname='postgres', user='postgres', password='root', host='localhost', port='9999')
+            dbname='postgres', user='cardan', password='12345', host='localhost', port='5432')
         cursor = conn.cursor()
-        query = '''INSERT INTO requestBooks(ip, hora, libro) VALUES (%s,%s,%s);'''
+        query = '''INSERT INTO requestbooksbackup(ip, hora, libro) VALUES (%s,%s,%s);'''
         # values to send to database
         cursor.execute(query, (iprequest, request_time, book))
         print('Data saved')
@@ -131,7 +134,7 @@ def sendBookInfo(connection):
         clientConnectionsBooks[connection].send(str(book).encode('ascii'))
     else:
         img['file'] = 'preview.png'
-        message = 'Libros terminados'
+        message = 'no hay libros'
         clientConnectionsBooks[connection].send(message.encode('ascii'))
 
 
@@ -160,9 +163,9 @@ def createRequestThread(connection2, c2):
     c2.close()
 
 
-def createResetThread(connection2, c3):
+def createResetThread(connection2, c2):
     while True:
-        data2 = c3.recv(1024)
+        data2 = c2.recv(1024)
         print(data2)
         global books 
         books = [
@@ -183,16 +186,16 @@ def createResetThread(connection2, c3):
             {'ISBN': '1108422098', 'name': 'Data-Driven Science and Engineering', 'author': 'Steven L Brunton',
              'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
         ]
-    c3.close()
 
+    c2.close()
 # run enviroment for the "socketThread" thread: starts the socket, puts the socket in listen mode
 # and creates a new thread for each new client connection
 
 
 def acceptConnections():
     numOfConnections = 0
-    host = '192.168.3.3'  # modify the ip addr as you need
-    port = 12345
+    host = '192.168.1.64'  # modify the ip addr as you need
+    port = 12347
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.bind((host, port))
     clientSocket.listen(5)
@@ -211,8 +214,8 @@ def acceptConnections():
 
 def acceptRequestBooks():
     numOfConnections2 = 0
-    hostRequestBook = '192.168.3.3'  # modify the ip addr as you need
-    portRequestBook = 12346
+    hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
+    portRequestBook = 12348
     clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket.bind((hostRequestBook, portRequestBook))
     clientBookSocket.listen(5)
@@ -231,20 +234,20 @@ def acceptRequestBooks():
 
 def acceptResetBooks():
     numOfConnections3 = 0
-    hostRequestBook3 = '192.168.3.3'  # modify the ip addr as you need
-    portRequestBook3 = 12341
+    hostRequestBook3 = '192.168.1.64'  # modify the ip addr as you need
+    portRequestBook3 = 12349
     clientBookSocket3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket3.bind((hostRequestBook3, portRequestBook3))
     clientBookSocket3.listen(5)
     while True:
         c, addr = clientBookSocket3.accept()
-        if(addr[0] not in clientIPsBooks3 and numOfConnections3 <= 3):
-            clientIPsBooks3.append(addr[0])
+        if(addr[0] not in clientIPsReset and numOfConnections3 <= 3):
+            clientIPsReset.append(addr[0])
             newThread = threading.Thread(
                 target=lambda: createResetThread(numOfConnections3, c))
-            clientThreadsBook3.append(newThread)
-            clientThreadsBook3[numOfConnections3].start()
-            clientConnectionsBooks3.append(c)
+            clientThreadsReset.append(newThread)
+            clientThreadsReset[numOfConnections3].start()
+            clientConnectionsReset.append(c)
             numOfConnections3 += 1
     clientBookSocket3.close()
 
@@ -318,6 +321,7 @@ lblBooks.grid(column=7, row=1, pady=(10, 0), padx=(30, 30), columnspan=3)
 
 
 # BOOK
+
 # i=random.randint(0,7)
 # book=books[i]
 # image = books[i]['portada']
@@ -331,7 +335,7 @@ lblBooks.grid(column=7, row=1, pady=(10, 0), padx=(30, 30), columnspan=3)
 # display initial image
 img = tk.PhotoImage(file="preview.png")
 # img = img.zoom(10)
-#img = img.subsample(2)
+img = img.subsample(2)
 label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
@@ -351,6 +355,5 @@ socketRequestThread.start()
 # Socket to listen reset
 socketResetThread = threading.Thread(target=acceptResetBooks)
 socketResetThread.start()
-
 
 window.mainloop()
