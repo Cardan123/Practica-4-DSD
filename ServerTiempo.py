@@ -66,32 +66,24 @@ def validateMasterHour(hour):
                 hours = 0
     return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
+def retornarHoras(hour):
+    hours = int(hour.split(':')[0])
+    return hours
+
+def retornarMins(hour):
+    mins = int(hour.split(':')[1])
+    return mins
+
+def retornarSecs(hour):
+    secs = int(hour.split(':')[2])
+    return secs
+
 def sendBookInfo(connection):
-    # generate random book
-    lengBooks = len(books)
-    lengBooks -= 1
-    # get address and port cliente that requests
-    print(clientConnectionsBooks[connection].getsockname()[0])
-    print(clientConnectionsBooks[connection].getsockname()[1])
-    if lengBooks >= 1:
-        i = 0
-        book = books[i]['name']
-        image = books[i]['portada']
-        print(books.pop(i))
-        print('book')
-        # replace the image book
-        img['file'] = image
-        now = datetime.now()
-        request_time = now.strftime("%H:%M:%S")
-        iprequest = clientConnectionsBooks[connection].getsockname()[0]
-        # connect to database each request, you have to create a PostgreSQL
-        i += 1
-        # send book's name to client
-        clientConnectionsBooks[connection].send(str(book).encode('ascii'))
-    else:
-        img['file'] = 'preview.png'
-        message = 'Libros terminados'
-        clientConnectionsBooks[connection].send(message.encode('ascii'))
+    horas = []
+    diferencias = []
+
+    horaServer =  [retornarHoras(tiempo[0]),retornarMins(tiempo[0])]
+    print(horaServer)   
 
 def createClientThread(connection, c):
     while True:

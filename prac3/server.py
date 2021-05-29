@@ -277,6 +277,14 @@ def sendTiempo(hour):
         sock.send(dataTiempo)
         sleep(1*factor)
 
+def reciveTiempo():
+    global factor
+    global pause
+    while True:
+        #receiving book
+        tiempo = pickle.loads(sock2.recv(1024)
+        print(tiempo)
+        sleep(1*factor)
 # -----------
 #   GUI
 # -----------
@@ -372,6 +380,10 @@ masterClkThread.start()
 #Send Tiempo
 threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
 threadSend.start()
+
+#Recive Tiempo
+threadReceive=threading.Thread(target=lambda: reciveTiempo())
+threadReceive.start()
 
 # Creating and starting the socket-listening thread
 socketThread = threading.Thread(target=acceptConnections)
