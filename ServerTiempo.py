@@ -9,6 +9,8 @@ import random
 from datetime import datetime
 import sys
 import os
+import pickle
+
 
 json_filename = 'books.json'
 clientThreads = []  # List of client threads
@@ -94,7 +96,7 @@ def sendBookInfo(connection):
 def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
-        tiempo[connection] = (data.decode('ascii'))
+        pickle.load(tiempo)
         print(tiempo)
     c.close()
 

@@ -11,6 +11,8 @@ import random
 from datetime import datetime
 import sys
 import os
+import pickle
+
 
 # conection drive to postgresql
 import psycopg2
@@ -271,10 +273,8 @@ def sendTiempo(hour):
     global pause
     global factor
     while pause==False:
-        sock.send(tiempo[0].encode('ascii'))
-        sock.send(tiempo[1].encode('ascii'))
-        sock.send(tiempo[2].encode('ascii'))
-        sock.send(tiempo[3].encode('ascii'))
+        dataTiempo = pickle.dumps(tiempo)
+        sock.send(dataTiempo)
         sleep(1*factor)
 
 # -----------
