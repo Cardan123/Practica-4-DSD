@@ -104,10 +104,10 @@ def editMasterSpeed(power):
 
 def runMasterClock(hour):
     time_new = hour
-    tiempo[0] = time_new
     global pause
     global factor
     while pause == False:
+        tiempo[0] = time_new
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClk0.set(time_new)
