@@ -93,7 +93,7 @@ def sendBookInfo(connection):
 
 def createClientThread(connection, c):
     while True:
-        data = c.recv(1024)
+        data = c.recv(1025)
         tiempo[connection] = (data.decode('ascii'))
         print(tiempo)
     c.close()
@@ -101,7 +101,7 @@ def createClientThread(connection, c):
 
 def createRequestThread(connection2, c2):
     while True:
-        data2 = c2.recv(1024)
+        data2 = c2.recv(1025)
         print(data2)
         sendBookInfo(connection2)
     c2.close()
