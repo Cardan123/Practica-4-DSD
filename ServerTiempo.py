@@ -91,16 +91,12 @@ def sendBookInfo(connection):
 
 def createClientThread(connection, c):
     while True:
-        data = c.recv(1024)
         tiempo = pickle.loads(data)
-        print(tiempo)
     c.close()
 
 
 def createRequestThread(connection2, c2):
     while True:
-        data2 = c2.recv(1024)
-        print(data2)
         sendBookInfo(connection2)
     c2.close()
 
