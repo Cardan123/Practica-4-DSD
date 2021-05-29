@@ -126,6 +126,8 @@ def createClientThread(connection, c):
 
 def createRequestThread(connection2, c2):
     while True:
+        data2 = c2.recv(1024)
+        print(data2)
         sendBookInfo(connection2)
     c2.close()
 
