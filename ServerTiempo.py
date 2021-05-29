@@ -1,83 +1,153 @@
 import tkinter as tk
-import threading
-from time import strftime,sleep
-from random import randint
+from time import strftime, sleep
 import socket
-import re
+import threading
+from tkinter import simpledialog
+import json
+from PIL import ImageTk, Image
+import random
+from datetime import datetime
+import sys
+import os
+factor = 1.0
+pause = False
+books = [
+    {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
+        'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
+    {'ISBN': '9780132350884', 'name': 'Clean Code', 'author': 'Robert Martin',
+        'editorial': 'Prentice Hall', 'price': 818, 'portada': 'cleancode.png'},
+    {'ISBN': '0135957052', 'name': 'The Pragmatic Programmer', 'author': 'David Thomas',
+        'editorial': 'Addison-Wesley Professional', 'price': 818, 'portada': 'pragmatic.png'},
+    {'ISBN': '0201633612', 'name': 'Design Patterns', 'author': 'Erich Gamma',
+        'editorial': 'Addison-Wesley Professional', 'price': 1286, 'portada': 'design.png'},
+    {'ISBN': '9780262033848', 'name': 'Introduction to Algorithms', 'author': 'Thomas H Cormen',
+        'editorial': 'MIT Press', 'price': 1390, 'portada': 'algorithms.png'},
+    {'ISBN': '1492052205', 'name': 'Architecture Patterns with Python', 'author': 'Harry Percival',
+        'editorial': 'O Reilly Media', 'price': 1016, 'portada': 'architecture.png'},
+    {'ISBN': '0135404673', 'name': 'Intro to Python for Computer Science', 'author': 'Paul Deitel',
+        'editorial': 'Pearson', 'price': 1534, 'portada': 'python.png'},
+    {'ISBN': '1108422098', 'name': 'Data-Driven Science and Engineering', 'author': 'Steven L Brunton',
+        'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
+]
 
-host='192.168.1.64'  #modify the ip addr as you need (server that gives the HOUR)
-port=12350          #(MAIN SERVER, port that gives hour)
-sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock.connect((host,port))
-pause=False
-factor=1.0
+tiempo = []
 
-host2='192.168.1.64'  #modify the ip addr as you need 
-port2=12351          #(MAIN SERVER, port that gives the BOOKS)
-sock2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock2.connect((host2,port2))
+def validateMasterHour(hour):
+    hours = int(hour.split(':')[0])
+    mins = int(hour.split(':')[1])
+    secs = int(hour.split(':')[2])
+    if secs >= 60:
+        secs = 0
+        mins += 1
+        if mins >= 60:
+            mins = 0
+            hours += 1
+            if hours >= 24:
+                hours = 0
+    return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
-host3='192.168.1.64'  #modify the ip addr as you need 
-port3=12352          #(BACKUPSERVER, port that gives BOOKS)
-sock3 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock3.connect((host3,port3))
+def sendBookInfo(connection):
+    # generate random book
+    lengBooks = len(books)
+    lengBooks -= 1
+    # get address and port cliente that requests
+    print(clientConnectionsBooks[connection].getsockname()[0])
+    print(clientConnectionsBooks[connection].getsockname()[1])
+    if lengBooks >= 1:
+        i = 0
+        book = books[i]['name']
+        image = books[i]['portada']
+        print(books.pop(i))
+        print('book')
+        # replace the image book
+        img['file'] = image
+        now = datetime.now()
+        request_time = now.strftime("%H:%M:%S")
+        iprequest = clientConnectionsBooks[connection].getsockname()[0]
+        # connect to database each request, you have to create a PostgreSQL
+        i += 1
+        # send book's name to client
+        clientConnectionsBooks[connection].send(str(book).encode('ascii'))
+    else:
+        img['file'] = 'preview.png'
+        message = 'Libros terminados'
+        clientConnectionsBooks[connection].send(message.encode('ascii'))
 
-host4='192.168.1.64'  #modify the ip addr as you need 
-port4=12353          #(BACKUPSERVER, port that gives hour)
-sock4 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-sock4.connect((host4,port4))
-
-def receiveData():
-    global factor
-    global pause
+def createClientThread(connection, c):
     while True:
-        #receiving book
-        code = (sock2.recv(1024)).decode('ascii')
-        print(code)
-        txtVarClk0.set(code)
+        data = c.recv(1024)
+        print(data)
+        tiempo.append(set(data.decode('ascii')))
+    c.close()
 
-def sendRequestBook(request):
-    sock2.send(request.encode('ascii'))
-    sock4.send(request.encode('ascii'))
-    txtVarClkresult.set(request)
 
-def sendResetBook(request):
-    print('Reset SEND')
-    sock.send(request.encode('ascii'))
-    sock3.send(request.encode('ascii'))
+def createRequestThread(connection2, c2):
+    while True:
+        data2 = c2.recv(1024)
+        print(data2)
+        sendBookInfo(connection2)
+    c2.close()
 
-def requestBook():
-    request='Libro Pedido'
-    threadSendRequest=threading.Thread(target=lambda: sendRequestBook(request))
-    threadSendRequest.start()
 
-def resetBooks():
-    print('Reset button')
-    request='Reset'
-    threadSendReset=threading.Thread(target=lambda: sendResetBook(request))
-    threadSendReset.start()
+def acceptConnections():
+    numOfConnections = 0
+    host = '192.168.1.65'  # modify the ip addr as you need
+    port = 12345
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.bind((host, port))
+    clientSocket.listen(5)
+    while True:
+        c, addr = clientSocket.accept()
+        if(addr[0] not in clientIPs and numOfConnections <= 3):
+            clientIPs.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createClientThread(numOfConnections, c))
+            clientThreads.append(newThread)
+            clientThreads[numOfConnections].start()
+            clientConnections.append(c)
+            numOfConnections += 1
+    clientSocket.close()
 
+
+def acceptRequestBooks():
+    numOfConnections2 = 0
+    hostRequestBook = '192.168.1.65'  # modify the ip addr as you need
+    portRequestBook = 12346
+    clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientBookSocket.bind((hostRequestBook, portRequestBook))
+    clientBookSocket.listen(5)
+    while True:
+        c, addr = clientBookSocket.accept()
+        if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
+            clientIPsBooks.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createRequestThread(numOfConnections2, c))
+            clientThreadsBook.append(newThread)
+            clientThreadsBook[numOfConnections2].start()
+            clientConnectionsBooks.append(c)
+            numOfConnections2 += 1
+    clientBookSocket.close()
+
+
+
+# -----------
+#   GUI
+# -----------
 window = tk.Tk()
-window.geometry('520x420')
-window.title('Client')
-txtVarClkresult=tk.StringVar(window, value='No has realizado ninguna petición')
-txtVarClk0=tk.StringVar(window, value='Vista previa Título')
+window.geometry('1000x760')
+window.title("Server Tiempo")
 
-lblClkstatus=tk.Label(window,text='Estatus Petición:',font="consoles 10 bold").pack(pady=(10,10))
-lblClkresult=tk.Label(window,textvar=txtVarClkresult,font="consoles 14").pack(pady=(15,30))
-lblClk0 = tk.Label(window, textvar=txtVarClk0, anchor='e', fg="red", font="consoles 20 bold").pack(pady=(15,30))
 
-button = tk.Button(window, text="Pedir libro", fg="black", command=requestBook)
-button.pack()
 
-buttonreset = tk.Button(window, text="Reiniciar libros", fg="black", command=resetBooks)
-buttonreset.pack()
+# Creating and starting the socket-listening thread
+socketThread = threading.Thread(target=acceptConnections)
+socketThread.start()
 
-threadReceive=threading.Thread(target=lambda: receiveData())
-threadReceive.start()
+# Socket to listen request
+socketRequestThread = threading.Thread(target=acceptRequestBooks)
+socketRequestThread.start()
+
+
+
 
 window.mainloop()
-sock.close()
-sock4.close()
-
-

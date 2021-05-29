@@ -33,6 +33,19 @@ pause = False  # Pause flag fors master clock
 clientIPsBooks3 = []  # List of client IPs
 clientConnectionsBooks3 = []  # List of clients connection tuple
 clientThreadsBook3 = []  # List of client threads
+
+host='192.168.1.65'  #modify the ip addr as you need (server that gives the HOUR)
+port=12345          #(MAIN SERVER, port that gives hour)
+sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+sock.connect((host,port))
+pause=False
+factor=1.0
+
+host2='192.168.1.65'  #modify the ip addr as you need 
+port2=12346          #(MAIN SERVER, port that gives the BOOKS)
+sock2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+sock2.connect((host2,port2))
+
 books = [
     {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
         'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
@@ -313,6 +326,7 @@ def applytoLabel():
 
 lblBooks = tk.Label(window, text=applytoLabel(), font="consoles 12")
 lblBooks.grid(column=7, row=1, pady=(10, 0), padx=(30, 30), columnspan=3)
+
 
 
 # BOOK
