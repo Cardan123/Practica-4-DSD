@@ -257,7 +257,7 @@ def acceptResetBooks():
 # -----------
 window = tk.Tk()
 window.geometry('1000x760')
-window.title("Server")
+window.title("Server Backup")
 txtVarClk0 = tk.StringVar(window, value='00:00:00')
 txtVarClk1 = tk.StringVar(window, value='00:00:00')
 txtVarClk2 = tk.StringVar(window, value='00:00:00')
