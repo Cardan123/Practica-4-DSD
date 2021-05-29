@@ -95,6 +95,7 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         tiempo.append(data.decode('ascii'))
+        print(tiempo)
     c.close()
 
 
