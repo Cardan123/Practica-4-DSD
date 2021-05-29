@@ -96,7 +96,7 @@ def sendBookInfo(connection):
 def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
-        pickle.load(tiempo)
+        tiempo = pickle.load(data)
         print(tiempo)
     c.close()
 
