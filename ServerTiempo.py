@@ -83,7 +83,11 @@ def sendBookInfo(connection):
     diferencias = []
 
     horaServer =  [retornarHoras(tiempo[0]),retornarMins(tiempo[0])]
-    print(horaServer)   
+    dataTiempo = pickle.dumps(tiempo)
+    print(horaServer)  
+    clientConnectionsBooks[connection].send(dataTiempo)
+    
+     
 
 def createClientThread(connection, c):
     while True:
