@@ -37,6 +37,87 @@ port6=12341          #(MAINSERVER, port that listen the RESET BUTTON)
 sock6 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock6.connect((host6,port6))
 
+def validateHour(hour):
+    hours=int(hour.split(':')[0])
+    mins=int(hour.split(':')[1])
+    secs=int(hour.split(':')[2])
+    if secs>=60:
+        secs=0
+        mins+=1
+        if mins>=60:
+            mins=0
+            hours+=1
+            if hours>=24:
+                hours=0
+    return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
+
+def receiveData():
+    global factor
+    global pause
+    while True:
+        #receiving book
+        code = (sock2.recv(1024)).decode('ascii')
+        print(code)
+        txtVarClk0.set(code)
+
+def runClock(hour):
+    time_new=hour
+    global pause
+    global factor
+    while pause==False:
+        time_new=validateHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        sock4.send(time_new.encode('ascii'))
+        sock.send(time_new.encode('ascii'))
+        txtVarClk.set(time_new)
+        sleep(1*factor)
+
+def sendRequestBook(request):
+    sock2.send(request.encode('ascii'))
+    sock3.send(request.encode('ascii'))
+    txtVarClkresult.set(request)
+
+def sendResetBook(request):
+    print('Reset SEND')
+    sock5.send(request.encode('ascii'))
+    sock6.send(request.encode('ascii'))
+
+def requestBook():
+    request='Libro Pedido'
+    threadSendRequest=threading.Thread(target=lambda: sendRequestBook(request))
+    threadSendRequest.start()
+
+def resetBooks():
+    print('Reset button')
+    request='Reset'
+    threadSendReset=threading.Thread(target=lambda: sendResetBook(request))
+    threadSendReset.start()
+
+window = tk.Tk()
+window.geometry('520x420')
+window.title('Client')
+txtVarClk=tk.StringVar(window)
+txtVarClkresult=tk.StringVar(window, value='No has realizado ninguna petición')
+txtVarClk0=tk.StringVar(window, value='Vista previa Título')
+
+lblClk=tk.Label(window,textvar=txtVarClk,bg="black",fg="green",font="consoles 40 bold").pack(pady=(65,30))
+lblClkstatus=tk.Label(window,text='Estatus Petición:',font="consoles 10 bold").pack(pady=(10,10))
+lblClkresult=tk.Label(window,textvar=txtVarClkresult,font="consoles 14").pack(pady=(15,30))
+lblClk0 = tk.Label(window, textvar=txtVarClk0, anchor='e', fg="red", font="consoles 20 bold").pack(pady=(15,30))
+
+button = tk.Button(window, text="Pedir libro", fg="black", command=requestBook)
+button.pack()
+
+buttonreset = tk.Button(window, text="Reiniciar libros", fg="black", command=resetBooks)
+buttonreset.pack()
+
+threadSend=threading.Thread(target=lambda: runClock(generateRandomHour()))
+threadSend.start()
+
+threadReceive=threading.Thread(target=lambda: receiveData())
+threadReceive.start()
+
+window.mainloop()
 sock.close()
 sock4.close()
+
 
