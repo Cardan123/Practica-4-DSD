@@ -277,7 +277,7 @@ def sendTiempo(hour):
         sock.send(dataTiempo)
         sleep(1*factor)
 
-def sendRequestBook(request):
+def sendRequestHours(request):
     sock2.send(request.encode('ascii'))
 
 def reciveTiempo():
