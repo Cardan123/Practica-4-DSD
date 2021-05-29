@@ -270,8 +270,7 @@ def sendTiempo(hour):
     global pause
     global factor
     while pause==False:
-        for i in range(len(tiempo)):
-            sock.send(tiempo[i].encode('ascii'))
+        sock.send(tiempo[0].encode('ascii'))
         sleep(1*factor)
 
 # -----------
