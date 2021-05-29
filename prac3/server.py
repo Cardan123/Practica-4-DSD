@@ -162,7 +162,8 @@ def createClientThread(connection, c):
         data = c.recv(1024)
         print(data)
         txtVarClks[connection].set(data.decode('ascii'))
-        tiempo[connection] = (data.decode('ascii'))
+        if(connection != 3):
+            tiempo[connection+1] = (data.decode('ascii'))
         print(tiempo)
     c.close()
 
@@ -271,6 +272,9 @@ def sendTiempo(hour):
     global factor
     while pause==False:
         sock.send(tiempo[0].encode('ascii'))
+        sock.send(tiempo[1].encode('ascii'))
+        sock.send(tiempo[2].encode('ascii'))
+        sock.send(tiempo[3].encode('ascii'))
         sleep(1*factor)
 
 # -----------
