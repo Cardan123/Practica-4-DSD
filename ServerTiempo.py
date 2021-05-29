@@ -48,7 +48,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-tiempo = ['13:03:49','13:03:49','13:03:49','13:03:49']
+tiempo = ['0:0:0','0:0:0','0:0:0','0:0:0']
 
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
@@ -92,10 +92,10 @@ def sendBookInfo(connection):
         clientConnectionsBooks[connection].send(message.encode('ascii'))
 
 def createClientThread(connection, c):
-    
-    data = c.recv(1024)
-    tiempo[connection] = (data.decode('ascii'))
-    print(tiempo)
+    while True:
+        data = c.recv(1024)
+        tiempo[connection] = (data.decode('ascii'))
+        print(tiempo)
     c.close()
 
 
