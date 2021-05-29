@@ -1,14 +1,9 @@
 import tkinter as tk
-from time import strftime, sleep
-import socket
 import threading
-from tkinter import simpledialog
-import json
-from PIL import ImageTk, Image
-import random
-from datetime import datetime
-import sys
-import os
+from time import strftime,sleep
+from random import randint
+import socket
+import re
 
 host='192.168.1.64'  #modify the ip addr as you need (server that gives the HOUR)
 port=12345          #(MAIN SERVER, port that gives hour)
