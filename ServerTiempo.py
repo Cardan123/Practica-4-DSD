@@ -48,7 +48,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-tiempo = []
+tiempo = [1,2,3,4]
 
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
