@@ -277,6 +277,9 @@ def sendTiempo(hour):
         sock.send(dataTiempo)
         sleep(1*factor)
 
+def sendRequestBook(request):
+    sock2.send(request.encode('ascii'))
+
 def reciveTiempo():
     global factor
     global pause
@@ -379,6 +382,9 @@ masterClkThread.start()
 #Send Tiempo
 threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
 threadSend.start()
+
+threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
+threadSendRequest.start()
 
 #Recive Tiempo
 threadReceive=threading.Thread(target=lambda: reciveTiempo())
