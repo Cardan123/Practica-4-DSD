@@ -65,7 +65,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-tiempo = []
+tiempo = [1,2,3,4]
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -102,7 +102,7 @@ def editMasterSpeed(power):
 
 def runMasterClock(hour):
     time_new = hour
-    tiempo.append(hour)
+    tiempo[0] = time_new
     global pause
     global factor
     while pause == False:
