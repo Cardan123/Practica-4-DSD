@@ -282,9 +282,8 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
-        tiempo = pickle.loads(sock2.recv(1024))
-        print(tiempo)
-        sleep(1*factor)
+        code = (sock2.recv(1024)).decode('ascii')
+        print(code)
 # -----------
 #   GUI
 # -----------

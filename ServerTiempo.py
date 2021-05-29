@@ -79,13 +79,7 @@ def retornarSecs(hour):
     return secs
 
 def sendBookInfo(connection):
-    horas = []
-    diferencias = []
-
-    horaServer =  [retornarHoras(tiempo[0]),retornarMins(tiempo[0])]
-    dataTiempo = pickle.dumps(tiempo)
-    print(horaServer)  
-    clientConnectionsBooks[connection].send(dataTiempo)
+    clientConnectionsBooks[connection].send(str("Sincronizar").encode('ascii'))
     
      
 
@@ -93,6 +87,7 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         tiempo = pickle.loads(data)
+        print(tiempo)
     c.close()
 
 
