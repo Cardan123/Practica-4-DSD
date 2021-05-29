@@ -79,7 +79,40 @@ def retornarSecs(hour):
     return secs
 
 def sendBookInfo(connection):
-    clientConnectionsBooks[0].send(str("Sincronizar").encode('ascii'))
+    # generate random book
+    lengBooks = len(books)
+    lengBooks -= 1
+    # get address and port cliente that requests
+    print(clientConnectionsBooks[connection].getsockname()[0])
+    print(clientConnectionsBooks[connection].getsockname()[1])
+    if lengBooks >= 1:
+        i = 0
+        book = books[i]['name']
+        image = books[i]['portada']
+        print(books.pop(i))
+        print('book')
+        # replace the image book
+        img['file'] = image
+        now = datetime.now()
+        request_time = now.strftime("%H:%M:%S")
+        iprequest = clientConnectionsBooks[connection].getsockname()[0]
+        # connect to database each request, you have to create a PostgreSQL
+        conn = psycopg2.connect(
+            dbname='postgres', user='cardan', password='12345', host='localhost', port='5432')
+        cursor = conn.cursor()
+        query = '''INSERT INTO requestBooks(ip, hora, libro) VALUES (%s,%s,%s);'''
+        # values to send to database
+        cursor.execute(query, (iprequest, request_time, book))
+        print('Data saved')
+        conn.commit()
+        conn.close()
+        i += 1
+        # send book's name to client
+        clientConnectionsBooks[connection].send(str(book).encode('ascii'))
+    else:
+        img['file'] = 'preview.png'
+        message = 'Libros terminados'
+        clientConnectionsBooks[connection].send(message.encode('ascii'))
     
      
 
