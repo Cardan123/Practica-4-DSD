@@ -92,9 +92,10 @@ def sendBookInfo(connection):
         clientConnectionsBooks[connection].send(message.encode('ascii'))
 
 def createClientThread(connection, c):
-    data = c.recv(1024)
-    tiempo[connection] = (data.decode('ascii'))
-    print(tiempo)
+    while True:
+        data = c.recv(1024)
+        tiempo[connection] = (data.decode('ascii'))
+        print(tiempo)
     c.close()
 
 

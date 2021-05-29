@@ -4,3 +4,7 @@ bcdedit /set hypervisorlaunchtype off #Apagar Hyper V
 #Activar Hyper V
 dism.exe /Online /Enable-Feature:Microsoft-Hyper-V /All
 bcdedit /set hypervisorlaunchtype auto #
+
+git add .
+git commit -m "Prueba"
+git push
