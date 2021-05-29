@@ -65,7 +65,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-
+tiempo = []
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -102,6 +102,7 @@ def editMasterSpeed(power):
 
 def runMasterClock(hour):
     time_new = hour
+    tiempo.append(hour)
     global pause
     global factor
     while pause == False:
@@ -161,6 +162,7 @@ def createClientThread(connection, c):
         data = c.recv(1024)
         print(data)
         txtVarClks[connection].set(data.decode('ascii'))
+        tiempo.append(data) 
     c.close()
 
 
@@ -267,8 +269,8 @@ def sendTiempo(hour):
     global pause
     global factor
     while pause==False:
-        for i in range(0,3):
-            sock.send(txtVarClks[0].encode('ascii'))
+        for i in range(len(tiempo)):
+            sock.send(tiempo[i].encode('ascii'))
         sleep(1*factor)
 
 # -----------
