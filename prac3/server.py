@@ -162,7 +162,8 @@ def createClientThread(connection, c):
         data = c.recv(1024)
         print(data)
         txtVarClks[connection].set(data.decode('ascii'))
-        tiempo.append(data) 
+        tiempo[connection] = (data.decode('ascii'))
+        print(tiempo)
     c.close()
 
 
