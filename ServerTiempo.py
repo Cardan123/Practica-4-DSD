@@ -9,8 +9,26 @@ import random
 from datetime import datetime
 import sys
 import os
+
+json_filename = 'books.json'
+clientThreads = []  # List of client threads
+clientIPs = []  # List of client IPs
+clientConnections = []  # List of clients connection tuple
+clientClockSpeeds = [0, 0, 0, 0]  # Speed of each clock
+masterClockSpeed = 0
 factor = 1.0
-pause = False
+
+clientThreadsBook = []  # List of client threads
+clientIPsBooks = []  # List of client IPs
+clientConnectionsBooks = []  # List of clients connection tuple
+factor2 = 1.0
+pause = False  # Pause flag fors master clock
+
+
+clientIPsBooks3 = []  # List of client IPs
+clientConnectionsBooks3 = []  # List of clients connection tuple
+clientThreadsBook3 = []  # List of client threads
+
 books = [
     {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
         'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
@@ -77,7 +95,7 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         print(data)
-        tiempo.append(set(data.decode('ascii')))
+        tiempo.append(data.decode('ascii'))
     c.close()
 
 
@@ -92,7 +110,7 @@ def createRequestThread(connection2, c2):
 def acceptConnections():
     numOfConnections = 0
     host = '192.168.1.65'  # modify the ip addr as you need
-    port = 12345
+    port = 12350
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.bind((host, port))
     clientSocket.listen(5)
@@ -112,7 +130,7 @@ def acceptConnections():
 def acceptRequestBooks():
     numOfConnections2 = 0
     hostRequestBook = '192.168.1.65'  # modify the ip addr as you need
-    portRequestBook = 12346
+    portRequestBook = 12351
     clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket.bind((hostRequestBook, portRequestBook))
     clientBookSocket.listen(5)

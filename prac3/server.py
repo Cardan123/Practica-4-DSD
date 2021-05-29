@@ -35,14 +35,14 @@ clientConnectionsBooks3 = []  # List of clients connection tuple
 clientThreadsBook3 = []  # List of client threads
 
 host='192.168.1.65'  #modify the ip addr as you need (server that gives the HOUR)
-port=12345          #(MAIN SERVER, port that gives hour)
+port=12350          #(MAIN SERVER, port that gives hour)
 sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock.connect((host,port))
 pause=False
 factor=1.0
 
 host2='192.168.1.65'  #modify the ip addr as you need 
-port2=12346          #(MAIN SERVER, port that gives the BOOKS)
+port2=12351          #(MAIN SERVER, port that gives the BOOKS)
 sock2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock2.connect((host2,port2))
 
@@ -260,6 +260,17 @@ def acceptResetBooks():
             numOfConnections3 += 1
     clientBookSocket3.close()
 
+
+##ServerTiempo
+def sendTiempo(hour):
+    time_new=hour
+    global pause
+    global factor
+    while pause==False:
+        for i in range(0,3):
+            sock.send(txtVarClks[0].encode('ascii'))
+        sleep(1*factor)
+
 # -----------
 #   GUI
 # -----------
@@ -352,6 +363,10 @@ masterClkThread = threading.Thread(
     target=lambda: runMasterClock(strftime('%H:%M:%S')))
 masterClkThread.start()
 
+#Send Tiempo
+threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
+threadSend.start()
+
 # Creating and starting the socket-listening thread
 socketThread = threading.Thread(target=acceptConnections)
 socketThread.start()
@@ -364,6 +379,5 @@ socketRequestThread.start()
 socketResetThread = threading.Thread(target=acceptResetBooks)
 socketResetThread.start()
 
-
-
 window.mainloop()
+sock.close()
