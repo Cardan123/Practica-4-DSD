@@ -1,5 +1,3 @@
-# CLIENT
-
 import tkinter as tk
 import threading
 from time import strftime,sleep
@@ -39,9 +37,6 @@ port6=12341          #(MAINSERVER, port that listen the RESET BUTTON)
 sock6 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock6.connect((host6,port6))
 
-
-
-#validates the hours in order to go back to zero (units) if needed
 def validateHour(hour):
     hours=int(hour.split(':')[0])
     mins=int(hour.split(':')[1])
@@ -56,19 +51,6 @@ def validateHour(hour):
                 hours=0
     return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
-#generates randoum hour to initiate the clock
-def generateRandomHour():
-    h=str(randint(0,23))
-    m=str(randint(0,59))
-    s=str(randint(0,59))
-    return h.zfill(2)+':'+m.zfill(2)+':'+s.zfill(2)
-
-def setEditedHour(hour):
-    global pause
-    pause=False
-    threadSend=threading.Thread(target=lambda: runClock(hour))
-    threadSend.start()
-
 def receiveData():
     global factor
     global pause
@@ -77,19 +59,13 @@ def receiveData():
         code = (sock2.recv(1024)).decode('ascii')
         print(code)
         txtVarClk0.set(code)
+        
+def generateRandomHour():
+    h=str(randint(0,23))
+    m=str(randint(0,59))
+    s=str(randint(0,59))
+    return h.zfill(2)+':'+m.zfill(2)+':'+s.zfill(2)
 
-def receiveData2():
-    global factor
-    global pause
-    while True:
-        #receiving book
-        code = (sock3.recv(1024)).decode('ascii')
-        print(code)
-        txtVarClk0.set(code)
-
-
-
-#creates the socket, runs the clock and sends the data to the server
 def runClock(hour):
     time_new=hour
     global pause
@@ -121,9 +97,7 @@ def resetBooks():
     request='Reset'
     threadSendReset=threading.Thread(target=lambda: sendResetBook(request))
     threadSendReset.start()
-#-----------
-#   GUI
-#-----------
+
 window = tk.Tk()
 window.geometry('520x420')
 window.title('Client')

@@ -146,6 +146,38 @@ def editSpeed(connection, power):
 # run enviroment for the "newThread" thread: reads the data sent from clients
 # and puts the data into the corresponding StringVar for clocks update
 
+def createHourThread(connection, c):
+    while True:
+        data2 = c.recv(1024)
+        print(data2)
+        global books 
+        books = [
+            {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
+             'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
+            {'ISBN': '9780132350884', 'name': 'Clean Code', 'author': 'Robert Martin',
+             'editorial': 'Prentice Hall', 'price': 818, 'portada': 'cleancode.png'},
+            {'ISBN': '0135957052', 'name': 'The Pragmatic Programmer', 'author': 'David Thomas',
+             'editorial': 'Addison-Wesley Professional', 'price': 818, 'portada': 'pragmatic.png'},
+            {'ISBN': '0201633612', 'name': 'Design Patterns', 'author': 'Erich Gamma',
+             'editorial': 'Addison-Wesley Professional', 'price': 1286, 'portada': 'design.png'},
+            {'ISBN': '9780262033848', 'name': 'Introduction to Algorithms', 'author': 'Thomas H Cormen',
+             'editorial': 'MIT Press', 'price': 1390, 'portada': 'algorithms.png'},
+            {'ISBN': '1492052205', 'name': 'Architecture Patterns with Python', 'author': 'Harry Percival',
+             'editorial': 'O Reilly Media', 'price': 1016, 'portada': 'architecture.png'},
+            {'ISBN': '0135404673', 'name': 'Intro to Python for Computer Science', 'author': 'Paul Deitel',
+             'editorial': 'Pearson', 'price': 1534, 'portada': 'python.png'},
+            {'ISBN': '1108422098', 'name': 'Data-Driven Science and Engineering', 'author': 'Steven L Brunton',
+             'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
+        ]
+    c.close()
+
+def createHourRequestThread(connection2, c2):
+    while True:
+        data2 = c2.recv(1024)
+        print(data2)
+        sendBookInfo(connection2)
+    c2.close()
+
 
 def createClientThread(connection, c):
     while True:
@@ -251,6 +283,43 @@ def acceptResetBooks():
             numOfConnections3 += 1
     clientBookSocket3.close()
 
+def acceptConnectionsH():
+    numOfConnections = 0
+    host = '192.168.1.64'  # modify the ip addr as you need
+    port = 12352
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.bind((host, port))
+    clientSocket.listen(5)
+    while True:
+        c, addr = clientSocket.accept()
+        if(addr[0] not in clientIPs and numOfConnections <= 3):
+            clientIPs.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createHourThread(numOfConnections, c))
+            clientThreads.append(newThread)
+            clientThreads[numOfConnections].start()
+            clientConnections.append(c)
+            numOfConnections += 1
+    clientSocket.close()
+
+def acceptRequestH():
+    numOfConnections2 = 0
+    hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
+    portRequestBook = 12353
+    clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientBookSocket.bind((hostRequestBook, portRequestBook))
+    clientBookSocket.listen(5)
+    while True:
+        c, addr = clientBookSocket.accept()
+        if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
+            clientIPsBooks.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createHourRequestThread(numOfConnections2, c))
+            clientThreadsBook.append(newThread)
+            clientThreadsBook[numOfConnections2].start()
+            clientConnectionsBooks.append(c)
+            numOfConnections2 += 1
+    clientBookSocket.close()
 
 # -----------
 #   GUI
@@ -343,6 +412,15 @@ label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 masterClkThread = threading.Thread(
     target=lambda: runMasterClock(strftime('%H:%M:%S')))
 masterClkThread.start()
+
+
+# Creating and starting the socket-listening thread
+socketThread = threading.Thread(target=acceptConnectionsH)
+socketThread.start()
+
+# Socket to listen request
+socketRequestThread = threading.Thread(target=acceptRequestH)
+socketRequestThread.start()
 
 # Creating and starting the socket-listening thread
 socketThread = threading.Thread(target=acceptConnections)
