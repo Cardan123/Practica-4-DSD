@@ -79,7 +79,7 @@ def retornarSecs(hour):
     return secs
 
 def sendBookInfo(connection):
-    clientConnectionsBooks[connection].send(str("Sincronizar").encode('ascii'))
+    clientConnectionsBooks[0].send(str("Sincronizar").encode('ascii'))
     
      
 
