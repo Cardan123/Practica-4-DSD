@@ -277,13 +277,29 @@ def sendTiempo(hour):
         sock.send(dataTiempo)
         sleep(1*factor)
 
-def reciveTiempo():
-    global factor
-    global pause
+def createSinThread(connection, c):
     while True:
-        #receiving book
-        tiempo = pickle.loads(sock2.recv(1024))
-        print(tiempo)
+        tiempo = pickle.loads(data)
+    c.close()
+
+def reciveTiempo():
+   numOfConnections = 0
+    host = '192.168.1.64'  # modify the ip addr as you need
+    port = 12350
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.bind((host, port))
+    clientSocket.listen(5)
+    while True:
+        c, addr = clientSocket.accept()
+        if(addr[0] not in clientIPs and numOfConnections <= 3):
+            clientIPs.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createSinThread(numOfConnections, c))
+            clientThreads.append(newThread)
+            clientThreads[numOfConnections].start()
+            clientConnections.append(c)
+            numOfConnections += 1
+    clientSocket.close()
 # -----------
 #   GUI
 # -----------

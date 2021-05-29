@@ -31,6 +31,11 @@ clientIPsBooks3 = []  # List of client IPs
 clientConnectionsBooks3 = []  # List of clients connection tuple
 clientThreadsBook3 = []  # List of client threads
 
+host='192.168.1.64'  #modify the ip addr as you need (server that gives the HOUR)
+port=12350          #(MAIN SERVER, port that gives hour)
+sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+sock.connect((host,port))
+
 books = [
     {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
         'editorial': 'Careercup', 'price': 569, 'portada': 'cracking.png'},
@@ -122,23 +127,13 @@ def acceptConnections():
 
 
 def acceptRequestBooks():
-    numOfConnections2 = 0
-    hostRequestBook = '192.168.1.65'  # modify the ip addr as you need
-    portRequestBook = 12351
-    clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    clientBookSocket.bind((hostRequestBook, portRequestBook))
-    clientBookSocket.listen(5)
-    while True:
-        c, addr = clientBookSocket.accept()
-        if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
-            clientIPsBooks.append(addr[0])
-            newThread = threading.Thread(
-                target=lambda: createRequestThread(numOfConnections2, c))
-            clientThreadsBook.append(newThread)
-            clientThreadsBook[numOfConnections2].start()
-            clientConnectionsBooks.append(c)
-            numOfConnections2 += 1
-    clientBookSocket.close()
+    time_new=hour
+    global pause
+    global factor
+    while pause==False:
+        dataTiempo = pickle.dumps(tiempo)
+        sock.send(dataTiempo)
+        sleep(1*factor)
 
 
 
