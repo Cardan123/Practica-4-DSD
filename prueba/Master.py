@@ -2,13 +2,13 @@ import socket
 import mysql.connector
 from time import sleep
 
-IP = "192.168.43.40"
+IP = "192.168.1.65"
 PORT = 60900
 
 mydb = mysql.connector.connect(
     host="localhost",
-    user="root",
-    password="root",
+    user="cardan",
+    password="password",
     database="Tiempo"
 )
 mycursor = mydb.cursor()

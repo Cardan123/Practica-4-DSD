@@ -8,7 +8,7 @@ import socket
 import mysql.connector
 
 #HOST = '127.0.0.1'   Standard loopback interface address (localhost)
-HOST = '192.168.43.40'
+HOST = '192.168.1.65'
 BKHOST = "192.168.43."
 PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
 BCKPORT = 65433        # Port to listen on (non-privileged ports are > 1023)
@@ -18,8 +18,8 @@ random.seed(99)
 
 mydb = mysql.connector.connect(
     host="localhost",
-    user="root",
-    password="root",
+    user="cardan",
+    password="password",
     database="Central"
 )
 mycursor = mydb.cursor()
