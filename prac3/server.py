@@ -301,6 +301,20 @@ def reciveTiempo():
         # Creating and starting the socket-listening thread
             sleep(10)
             tiempo = pickle.loads(sock2.recv(1024))
+            parar1 = 1
+            parar2 = 1
+            parar3 = 1
+            parar4 = 1
+            parar5 = 1
+            parar6 = 1
+            parar7 = 1
+            masterClkThread.join()
+            threadSend.join()
+            threadSendRequest.join()
+            threadReceive.join()
+            socketThread.join()
+            socketRequestThread.join()
+            socketResetThread.join()
         else:
             break;
 
