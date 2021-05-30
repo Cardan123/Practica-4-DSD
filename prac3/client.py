@@ -57,7 +57,7 @@ def receiveData():
     while True:
         #receiving book
         code = (sock2.recv(1024)).decode('ascii')
-        tiempo = sock2.recv(1024)
+        tiempo = sock2.recv(1024).decode('ascii')
         print(code)
         txtVarClk0.set(code)
         

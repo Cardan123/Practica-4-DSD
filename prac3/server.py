@@ -130,7 +130,7 @@ def sendBookInfo(connection):
         i += 1
         # send book's name to client
         clientConnectionsBooks[connection].send(str(book).encode('ascii'))
-        clientConnectionsBooks[connection].send(tiempo[connection])
+        clientConnectionsBooks[connection].send(tiempo[connection].encode('ascii'))
     else:
         img['file'] = 'preview.png'
         message = 'Libros terminados'
