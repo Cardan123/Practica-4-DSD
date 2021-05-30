@@ -170,7 +170,7 @@ def createRequestThread(connection2, c2):
 def acceptConnections():
     numOfConnections = 0
     host = '192.168.1.65'  # modify the ip addr as you need
-    port = 12350
+    port = 12352
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.bind((host, port))
     clientSocket.listen(5)
@@ -190,7 +190,7 @@ def acceptConnections():
 def acceptRequestBooks():
     numOfConnections2 = 0
     hostRequestBook = '192.168.1.65'  # modify the ip addr as you need
-    portRequestBook = 12351
+    portRequestBook = 12353
     clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket.bind((hostRequestBook, portRequestBook))
     clientBookSocket.listen(5)
