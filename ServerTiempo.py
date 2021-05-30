@@ -95,14 +95,14 @@ def createClientThread(connection, c):
         horas = []
         diferencias = []
 
-        horaServer = [int(tiempo[0].split(':')[0]),int(tiempo[0].split(':')[1])]
+        horaServer = [int(str(tiempo[0]).split(':')[0]),int(str(tiempo[0]).split(':')[1])]
         diferenciaServer = calcularDiferencias(horaServer, horaServer)
         diferencias.append(diferenciaServer)
         horas.append(str(horaServer))
 
-        horaCliente1 = [int(tiempo[1].split(':')[0]),int(tiempo[1].split(':')[1])]
-        horaCliente2 = [int(tiempo[2].split(':')[0]),int(tiempo[2].split(':')[1])]
-        horaCliente3 = [int(tiempo[3].split(':')[0]),int(tiempo[3].split(':')[1])]
+        horaCliente1 = [int(str(tiempo[1]).split(':')[0]),int(str(tiempo[1]).split(':')[1])]
+        horaCliente2 = [int(str(tiempo[2]).split(':')[0]),int(str(tiempo[2]).split(':')[1])]
+        horaCliente3 = [int(str(tiempo[3]).split(':')[0]),int(str(tiempo[3]).split(':')[1])]
         diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
         diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
         diferenciaCliente3 = calcularDiferencias(horaCliente3, horaServer)
