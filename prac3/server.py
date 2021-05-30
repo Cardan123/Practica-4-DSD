@@ -295,7 +295,8 @@ def reciveTiempo():
         txtVarClks[0].set(tiempoSincro[1])
         txtVarClks[1].set(tiempoSincro[2])
         txtVarClks[2].set(tiempoSincro[3])
-        print(tiempoSincro)
+        sleep(1*factor)
+        #print(tiempoSincro)
 # -----------
 #   GUI
 # -----------
