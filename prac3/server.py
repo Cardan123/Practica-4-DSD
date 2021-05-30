@@ -292,7 +292,7 @@ def reciveTiempo():
         #receiving book
         tiempoSincro = pickle.loads(sock2.recv(1024))
         txtVarClks[0].set(tiempoSincro[0].decode('ascii'))
-        txtVarClks[1].set(tiempoSincro[1.decode('ascii'))
+        txtVarClks[1].set(tiempoSincro[1].decode('ascii'))
         txtVarClks[2].set(tiempoSincro[2].decode('ascii'))
         txtVarClks[3].set(tiempoSincro[3].decode('ascii'))
         print(tiempoSincro)
