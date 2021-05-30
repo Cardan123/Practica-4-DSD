@@ -295,41 +295,30 @@ def reciveTiempo():
     global factor
     global pause
     global tiempo
+    time_new = tiempo [0]
+    time_new1 = tiempo [1]
+    time_new2 = tiempo [2]
+    time_new3 = tiempo [3]
     while True:
         if parar4 == 0:
         #receiving book
         # Creating and starting the socket-listening thread
             sleep(10)
             tiempo = pickle.loads(sock2.recv(1024))
-            parar1 = 1
-            parar2 = 1
-            parar3 = 1
-            parar4 = 1
-            parar5 = 1
-            parar6 = 1
-            parar7 = 1
-            masterClkThread.join()
-            threadSend.join()
-            threadSendRequest.join()
-            threadReceive.join()
-            socketThread.join()
-            socketRequestThread.join()
-            socketResetThread.join()
+            
+            time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+            txtVarClk0.set(time_new)
 
-            masterClkThread = threading.Thread(target=lambda: runMasterClock())
-            masterClkThread.start()
-            threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
-            threadSend.start()
-            threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
-            threadSendRequest.start()
-            threadReceive=threading.Thread(target=lambda: reciveTiempo())
-            threadReceive.start()
-            socketThread = threading.Thread(target=acceptConnections)
-            socketThread.start()
-            socketRequestThread = threading.Thread(target=acceptRequestBooks)
-            socketRequestThread.start()
-            socketResetThread = threading.Thread(target=acceptResetBooks)
-            socketResetThread.start()
+            time_new1 = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+            txtVarClk1.set(time_new1)
+
+            time_new2 = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+            txtVarClk2.set(time_new2)
+
+            time_new3 = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+            txtVarClk3.set(time_new3)
+
+            sleep(1*factor)
         else:
             break;
 
