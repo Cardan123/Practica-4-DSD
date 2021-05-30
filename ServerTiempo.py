@@ -78,7 +78,7 @@ def calcularDiferencias(horaCliente, horaServer):
     diferencia = minutosCliente - minutosServer #se hace la diferencia de los minutos
     #print "diferencia : "+ str(diferencia)
 
-    return str(diferencia)
+    return diferencia
 
 
 
@@ -115,6 +115,9 @@ def createClientThread(connection, c):
 
         print ("hora servidor : "+ str(horaServer))
         print ("hora cliente 1: "+ str(horaCliente1))
+        print ("hora cliente 3: "+ str(horaCliente2))
+        print ("hora cliente 4: "+ str(horaCliente3))
+        print ("diferencias: "+str(diferencias))
         print(tiempo)
     c.close()
 
