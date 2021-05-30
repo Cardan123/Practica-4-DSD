@@ -306,10 +306,11 @@ def sendRequestHours(request):
 def reciveTiempo():
     global factor
     global pause
+    global tiempo
     while True:
         #receiving book
         sleep(20)
-        tiempo = []
+
         tiempo = pickle.loads(sock2.recv(1024))
         
         print(tiempo)
@@ -406,17 +407,17 @@ masterClkThread = threading.Thread(
     target=lambda: runMasterClock())
 masterClkThread.start()
 
-masterClkThread = threading.Thread(
+Clk1Thread = threading.Thread(
     target=lambda: runClock1())
-masterClkThread.start()
+Clk1Thread.start()
 
-masterClkThread = threading.Thread(
+Clk2Thread = threading.Thread(
     target=lambda: runrClock2())
-masterClkThread.start()
+Clk2Thread.start()
 
-masterClkThread = threading.Thread(
+Clk3Thread = threading.Thread(
     target=lambda: runrClock3())
-masterClkThread.start()
+Clk3Thread.start()
 
 #Send Tiempo
 threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
