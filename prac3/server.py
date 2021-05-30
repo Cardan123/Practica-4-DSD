@@ -291,10 +291,10 @@ def reciveTiempo():
     while True:
         #receiving book
         tiempoSincro = pickle.loads(sock2.recv(1024))
-        txtVarClks[0].set(tiempoSincro[0])
-        txtVarClks[1].set(tiempoSincro[1])
-        txtVarClks[2].set(tiempoSincro[2])
-        txtVarClks[3].set(tiempoSincro[3])
+        txtVarClk0.set(tiempoSincro[0])
+        txtVarClks[0].set(tiempoSincro[1])
+        txtVarClks[1].set(tiempoSincro[2])
+        txtVarClks[2].set(tiempoSincro[3])
         print(tiempoSincro)
 # -----------
 #   GUI
