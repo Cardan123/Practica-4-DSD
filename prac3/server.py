@@ -192,7 +192,7 @@ def createResetThread(connection2, c3):
 
 def acceptConnections():
     global parar5
-    if parar5 = 0:
+    if parar5 == 0:
         numOfConnections = 0
         host = '192.168.1.64'  # modify the ip addr as you need
         port = 12345
