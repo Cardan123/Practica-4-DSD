@@ -99,7 +99,7 @@ def runMasterClock():
             ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
         
         txtVarClk0.set(time_new)
-        txtVarClk1.set(time_new)
+        txtVarClk1.set(time_new1)
         sleep(1*factor)
 
 
