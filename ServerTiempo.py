@@ -83,6 +83,7 @@ def calcularDiferencias(horaCliente, horaServer):
 
 
 def sendBookInfo(connection):
+    sleep(60)
     print(tiempoSincro)
     dataTiempo = pickle.dumps(tiempoSincro)
     clientConnectionsBooks[connection].send(dataTiempo)
