@@ -108,6 +108,8 @@ def runMasterClock():
         txtVarClk1.set(time_new1)
         txtVarClk2.set(time_new2)
         txtVarClk3.set(time_new3)
+
+        print(tiempo)
         sleep(1*factor)
 
 
@@ -283,6 +285,7 @@ def reciveTiempo():
     while True:
         #receiving book
         sleep(20)
+        tiempo = []
         tiempo = pickle.loads(sock2.recv(1024))
         
         print(tiempo)
