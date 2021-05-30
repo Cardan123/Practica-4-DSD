@@ -111,7 +111,7 @@ def runMasterClock(hour):
         tiempo[0] = time_new
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        #txtVarClk0.set(time_new)
+        txtVarClk0.set(tiempo[0])
         sleep(1*factor)
 
 
@@ -164,10 +164,9 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         print(data)
-        #txtVarClks[connection].set(data.decode('ascii'))
         if(connection != 3):
             tiempo[connection+1] = (data.decode('ascii'))
-        print(tiempo)
+        txtVarClks[connection].set(tiempo[connection+1])
     c.close()
 
 
@@ -290,6 +289,7 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
+        sleep(60)
         tiempo = pickle.loads(sock2.recv(1024))
         time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
@@ -309,10 +309,7 @@ def reciveTiempo():
         time_new = tiempo[3]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[2].set(time_new)
-
-
-        sleep(1*20)
+        txtVarClks[2].set(time_new)   
         #print(tiempoSincro)
 # -----------
 #   GUI
