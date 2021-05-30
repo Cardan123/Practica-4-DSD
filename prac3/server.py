@@ -316,12 +316,19 @@ def reciveTiempo():
             socketRequestThread.join()
             socketResetThread.join()
 
+            masterClkThread = threading.Thread(target=lambda: runMasterClock())
             masterClkThread.start()
+            threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
             threadSend.start()
+            threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
             threadSendRequest.start()
+            threadReceive=threading.Thread(target=lambda: reciveTiempo())
             threadReceive.start()
+            socketThread = threading.Thread(target=acceptConnections)
             socketThread.start()
+            socketRequestThread = threading.Thread(target=acceptRequestBooks)
             socketRequestThread.start()
+            socketResetThread = threading.Thread(target=acceptResetBooks)
             socketResetThread.start()
         else:
             break;
