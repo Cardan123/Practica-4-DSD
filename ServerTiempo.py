@@ -241,7 +241,7 @@ def createClientThread2(connection, c):
     c.close()
 
 
-def createRequestThread(connection2, c2):
+def createRequestThread2(connection2, c2):
     while True:
         data2 = c2.recv(1024)
         print(data2)
