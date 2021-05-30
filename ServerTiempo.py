@@ -142,7 +142,7 @@ def createClientThread(connection, c):
         pos = 0
         nuevasHoras = []
         for nuevaDiferencia in nuevasDiferencias:
-            nuevasHoras.append(minutos[pos] + nuevaDiferencia)
+            nuevasHoras.append(minutos[pos]+(int)nuevaDiferencia)
             pos += 1
 
         print ("nuevas Horas: "+ str(nuevasHoras))
