@@ -1,2 +1,3 @@
 create database Tiempo;
-Create table Tiempo (hora varchar(255),);
+use Tiempo
+Create table Tiempo (hora varchar(255));
