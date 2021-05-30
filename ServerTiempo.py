@@ -50,7 +50,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-tiempo = ['0:0:0','0:0:0','0:0:0','0:0:0']
+tiempo = ['00:00:00','00:00:00','00:00:00','00:00:00']
 
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
@@ -92,9 +92,68 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         tiempo = pickle.loads(data)
-        
+        horas = []
+        diferencias = []
+
+        horaServer = [int(str(tiempo[0]).split(':')[0]),int(str(tiempo[0]).split(':')[1])]
+        diferenciaServer = calcularDiferencias(horaServer, horaServer)
+        diferencias.append(diferenciaServer)
+        horas.append(str(horaServer))
+
+        horaCliente1 = [int(str(tiempo[1]).split(':')[0]),int(str(tiempo[1]).split(':')[1])]
+        horaCliente2 = [int(str(tiempo[2]).split(':')[0]),int(str(tiempo[2]).split(':')[1])]
+        horaCliente3 = [int(str(tiempo[3]).split(':')[0]),int(str(tiempo[3]).split(':')[1])]
+        diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
+        diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
+        diferenciaCliente3 = calcularDiferencias(horaCliente3, horaServer)
+        diferencias.append(diferenciaCliente1)
+        diferencias.append(diferenciaCliente2)
+        diferencias.append(diferenciaCliente3)
+        horas.append(str(horaCliente1))
+        horas.append(str(horaCliente2))
+        horas.append(str(horaCliente3))
+
+        #print ("hora servidor : "+ str(horaServer))
+        #print ("hora cliente 1: "+ str(horaCliente1))
+        #print ("hora cliente 3: "+ str(horaCliente2))
+        #print ("hora cliente 4: "+ str(horaCliente3))
+        #print ("diferencias: "+str(diferencias))
+
+        nuevasHoras = []
+        minutos = []
+        i = 0
+        minutos.append(horaServer[0]*60+horaServer[1])
+        minutos.append(horaCliente1[0]*60+horaCliente1[1])
+        minutos.append(horaCliente2[0]*60+horaCliente2[1])
+        minutos.append(horaCliente3[0]*60+horaCliente3[1])
+        #print ("minutos: "+ str(minutos))
+
+        cantidadDiferencias = len(diferencias)
+        suma = 0
+        for diferencia in diferencias:
+            suma = suma + diferencia
+        promedio = suma / cantidadDiferencias
+        #print ("promedio : " + str(promedio))
+
+        nuevasDiferencias = []
+        for diferencia in diferencias:
+            nuevasDiferencias.append(promedio-diferencia)
+        #print ("nuevas Diferencias: "+ str(nuevasDiferencias))
+        pos = 0
+        nuevasHoras = []
+        for nuevaDiferencia in nuevasDiferencias:
+            nuevasHoras.append(minutos[pos]+nuevaDiferencia)
+            pos += 1
+
+        #print ("nuevas Horas: "+ str(nuevasHoras))
+        tiempoSincro = []
+        tiempoSincro.append(str(int(nuevasHoras[0]//60)).zfill(2)+':'+str(int(nuevasHoras[0]-((nuevasHoras[0]//60)*60))).zfill(2)+":0")
+        tiempoSincro.append(str(int(nuevasHoras[1]//60)).zfill(2)+':'+str(int(nuevasHoras[1]-((nuevasHoras[1]//60)*60))).zfill(2)+":0")
+        tiempoSincro.append(str(int(nuevasHoras[2]//60)).zfill(2)+':'+str(int(nuevasHoras[2]-((nuevasHoras[2]//60)*60))).zfill(2)+":0")
+        tiempoSincro.append(str(int(nuevasHoras[3]//60)).zfill(2)+':'+str(int(nuevasHoras[3]-((nuevasHoras[3]//60)*60))).zfill(2)+":0")
 
         print(tiempo)
+        print(tiempoSincro)
         
     c.close()
 
