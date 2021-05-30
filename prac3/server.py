@@ -315,6 +315,14 @@ def reciveTiempo():
             socketThread.join()
             socketRequestThread.join()
             socketResetThread.join()
+
+            masterClkThread.start()
+            threadSend.start()
+            threadSendRequest.start()
+            threadReceive.start()
+            socketThread.start()
+            socketRequestThread.start()
+            socketResetThread.start()
         else:
             break;
 
