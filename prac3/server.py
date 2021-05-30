@@ -266,6 +266,9 @@ def reciveTiempo():
     global factor
     global pause
     global tiempo
+    global socketThread
+    global socketRequestThread
+    global socketResetThread
     while True:
         #receiving book
         # Creating and starting the socket-listening thread
