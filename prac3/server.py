@@ -96,44 +96,6 @@ def runMasterClock():
         sleep(1*factor)
 
 
-def runClock1():
-    time_new = tiempo [1]
-    global pause
-    global factor
-    while pause == False:
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        
-        txtVarClk1.set(time_new)
-
-        
-        sleep(1*factor)
-
-def runClock2():
-    time_new = tiempo [2]
-    global pause
-    global factor
-    while pause == False:
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        
-        txtVarClk2.set(time_new)
-
-
-        sleep(1*factor)
-
-def runClock3():    
-    time_new = tiempo [3]
-    global pause
-    global factor
-    while pause == False:
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        
-        txtVarClk3.set(time_new)
-
-        sleep(1*factor)
-
 def sendBookInfo(connection):
     # generate random book
     lengBooks = len(books)
@@ -181,7 +143,7 @@ def createClientThread(connection, c):
         print(data)
         if(connection != 3):
             tiempo[connection+1] = (data.decode('ascii'))
-        #txtVarClks[connection].set(tiempo[connection+1])
+        txtVarClks[connection].set(tiempo[connection+1])
     c.close()
 
 
@@ -309,7 +271,9 @@ def reciveTiempo():
         sleep(20)
 
         tiempo = pickle.loads(sock2.recv(1024))
-        
+        masterClkThread = threading.Thread(
+            target=lambda: runMasterClock())
+        masterClkThread.start()
         print(tiempo)
 # -----------
 #   GUI
@@ -403,18 +367,6 @@ tiempo[0] = strftime('%H:%M:%S')
 masterClkThread = threading.Thread(
     target=lambda: runMasterClock())
 masterClkThread.start()
-
-Clk1Thread = threading.Thread(
-    target=lambda: runClock1())
-Clk1Thread.start()
-
-Clk2Thread = threading.Thread(
-    target=lambda: runClock2())
-Clk2Thread.start()
-
-Clk3Thread = threading.Thread(
-    target=lambda: runClock3())
-Clk3Thread.start()
 
 #Send Tiempo
 threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
