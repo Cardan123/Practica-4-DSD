@@ -291,10 +291,25 @@ def reciveTiempo():
     while True:
         #receiving book
         tiempoSincro = pickle.loads(sock2.recv(1024))
-        txtVarClk0.set(tiempoSincro[0])
-        txtVarClks[0].set(tiempoSincro[1])
-        txtVarClks[1].set(tiempoSincro[2])
-        txtVarClks[2].set(tiempoSincro[3])
+        time_new = tiempoSincro[0]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClk0.set(time_new)
+
+        time_new = tiempoSincro[1]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[0].set(time_new)
+
+        time_new = tiempoSincro[2]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[1].set(time_new)
+
+        time_new = tiempoSincro[3]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[2].set(time_new)
         sleep(1*factor)
         #print(tiempoSincro)
 # -----------
