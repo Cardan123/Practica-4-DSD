@@ -78,7 +78,46 @@ def retornarSecs(hour):
     secs = int(hour.split(':')[2])
     return secs
 
+def calcularDiferencias(horaCliente, horaServer):
+
+    minutosCliente = int(horaCliente[0])*60  + int(horaCliente[1]) # se cambian las horas del cliente a minutos
+    #print "minutos Cliente : "+ str(minutosCliente)
+
+    minutosServer = int(horaServer[0])*60 + int(horaServer[1]) # se cambian las horas del server a minutos
+    #print "minutos Servidor : "+ str(minutosServer)
+
+    diferencia = minutosCliente - minutosServer #se hace la diferencia de los minutos
+    #print "diferencia : "+ str(diferencia)
+
+    return str(diferencia)
+
+
+
 def sendBookInfo(connection):
+    horas = []
+    diferencias = []
+
+    horaServer = [retornarHoras(tiemo[0]),retornarMins[tiempo[0]]]
+    diferenciaServer = calcularDiferencias(horaServer, horaServer)
+    diferencias.append(diferenciaServer)
+    horas.append(str(horaServer))
+
+    horaCliente1 = [retornarHoras(tiemo[1]),retornarMins[tiempo[1]]]
+    horaCliente2 = [retornarHoras(tiemo[2]),retornarMins[tiempo[2]]]
+    horaCliente3 = [retornarHoras(tiemo[3]),retornarMins[tiempo[3]]]
+    diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
+    diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
+    diferenciaCliente3 = calcularDiferencias(horaCliente2, horaServer)
+    diferencias.append(diferenciaCliente1)
+    diferencias.append(diferenciaCliente2)
+    diferencias.append(diferenciaCliente3)
+    horas.append(str(horaCliente1))
+    horas.append(str(horaCliente2))
+    horas.append(str(horaCliente3))
+
+    print ("hora servidor : "+ str(horaServer))
+    print ("hora cliente 1: "+ str(horaCliente1))
+
     clientConnectionsBooks[connection].send(str("hola").encode('ascii'))
     
 
