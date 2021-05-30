@@ -105,7 +105,7 @@ def createClientThread(connection, c):
         horaCliente3 = [int(tiempo[3].split(':')[0]),int(tiempo[3].split(':')[1])]
         diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
         diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
-        diferenciaCliente3 = calcularDiferencias(horaCliente2, horaServer)
+        diferenciaCliente3 = calcularDiferencias(horaCliente3, horaServer)
         diferencias.append(diferenciaCliente1)
         diferencias.append(diferenciaCliente2)
         diferencias.append(diferenciaCliente3)
@@ -122,10 +122,10 @@ def createClientThread(connection, c):
         nuevasHoras = []
         minutos = []
         i = 0
-        for hora in horas:
-            while(i<len(horas)):
-                minutos.append(horas[i][0]*60+horas[i][1])
-                i += 1
+        minutos.append(horaServer[0]*60+horaServer[1])
+        minutos.append(horaCliente1[0]*60+horaCliente1[1])
+        minutos.append(horaCliente2[0]*60+horaCliente2[1])
+        minutos.append(horaCliente3[0]*60+horaCliente3[1])
         print ("minutos: "+ str(minutos))
 
         cantidadDiferencias = len(diferencias)
@@ -142,7 +142,7 @@ def createClientThread(connection, c):
         pos = 0
         nuevasHoras = []
         for nuevaDiferencia in nuevasDiferencias:
-            nuevasHoras.append(minutos[pos]+(int)nuevaDiferencia)
+            nuevasHoras.append(minutos[pos]+nuevaDiferencia)
             pos += 1
 
         print ("nuevas Horas: "+ str(nuevasHoras))
