@@ -268,13 +268,19 @@ def reciveTiempo():
     global tiempo
     while True:
         #receiving book
-        sleep(20)
+        # Creating and starting the socket-listening thread
+        socketThread = threading.Thread(target=acceptConnections)
+        socketThread.start()
 
+        # Socket to listen request
+        socketRequestThread = threading.Thread(target=acceptRequestBooks)
+        socketRequestThread.start()
+
+        # Socket to listen reset
+        socketResetThread = threading.Thread(target=acceptResetBooks)
+        socketResetThread.start()
+        sleep(20)
         tiempo = pickle.loads(sock2.recv(1024))
-        masterClkThread = threading.Thread(
-            target=lambda: runMasterClock())
-        masterClkThread.start()
-        print(tiempo)
 # -----------
 #   GUI
 # -----------
@@ -379,17 +385,6 @@ threadSendRequest.start()
 threadReceive=threading.Thread(target=lambda: reciveTiempo())
 threadReceive.start()
 
-# Creating and starting the socket-listening thread
-socketThread = threading.Thread(target=acceptConnections)
-socketThread.start()
-
-# Socket to listen request
-socketRequestThread = threading.Thread(target=acceptRequestBooks)
-socketRequestThread.start()
-
-# Socket to listen reset
-socketResetThread = threading.Thread(target=acceptResetBooks)
-socketResetThread.start()
 
 window.mainloop()
 sock.close()
