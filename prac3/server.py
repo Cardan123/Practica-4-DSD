@@ -85,29 +85,14 @@ def validateMasterHour(hour):
 
 
 def runMasterClock(hour):
-    time_new = hour
+    time_new = tiempo [0]
     global pause
     global factor
     while pause == False:
-        time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClk0.set(time_new)
-
-        time_new = tiempo[1]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[0].set(time_new)
-
-        time_new = tiempo[2]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[1].set(time_new)
-
-        time_new = tiempo[3]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[2].set(time_new)   
+        
+        txtVarClk0.set(tiempo[0])
         sleep(1*factor)
 
 
@@ -284,6 +269,7 @@ def reciveTiempo():
         #receiving book
         sleep(20)
         tiempo = pickle.loads(sock2.recv(1024))
+        
         #print(tiempoSincro)
 # -----------
 #   GUI
@@ -375,7 +361,7 @@ label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 # Creating and starting master clock thread
 tiempo[0] = strftime('%H:%M:%S')
 masterClkThread = threading.Thread(
-    target=lambda: runMasterClock(tiempo[0]))
+    target=lambda: runMasterClock())
 masterClkThread.start()
 
 #Send Tiempo
