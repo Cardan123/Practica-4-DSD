@@ -258,7 +258,7 @@ def sendRequestHours(request):
     global pause
     global factor
     while pause==False:
-        sleep(20)
+        sleep(10)
         sock2.send(request.encode('ascii'))
         sleep(1*factor)
 
@@ -269,18 +269,11 @@ def reciveTiempo():
     while True:
         #receiving book
         # Creating and starting the socket-listening thread
-        socketThread = threading.Thread(target=acceptConnections)
-        socketThread.start()
-
-        # Socket to listen request
-        socketRequestThread = threading.Thread(target=acceptRequestBooks)
-        socketRequestThread.start()
-
-        # Socket to listen reset
-        socketResetThread = threading.Thread(target=acceptResetBooks)
-        socketResetThread.start()
-        sleep(20)
+        sleep(10)
         tiempo = pickle.loads(sock2.recv(1024))
+        socketThread.join()
+        socketRequestThread.join()
+        socketResetThread.join()
 # -----------
 #   GUI
 # -----------
@@ -384,6 +377,18 @@ threadSendRequest.start()
 #Recive Tiempo
 threadReceive=threading.Thread(target=lambda: reciveTiempo())
 threadReceive.start()
+
+# Creating and starting the socket-listening thread
+socketThread = threading.Thread(target=acceptConnections)
+socketThread.start()
+
+# Socket to listen request
+socketRequestThread = threading.Thread(target=acceptRequestBooks)
+socketRequestThread.start()
+
+# Socket to listen reset
+socketResetThread = threading.Thread(target=acceptResetBooks)
+socketResetThread.start()
 
 
 window.mainloop()
