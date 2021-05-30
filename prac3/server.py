@@ -110,6 +110,17 @@ def runMasterClock():
         txtVarClk3.set(time_new3)
 
         print(tiempo)
+
+        #Send Tiempo
+        threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
+        threadSend.start()
+
+        threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
+        threadSendRequest.start()
+
+        #Recive Tiempo
+        threadReceive=threading.Thread(target=lambda: reciveTiempo())
+        threadReceive.start()
         sleep(1*factor)
 
 
@@ -381,17 +392,6 @@ tiempo[0] = strftime('%H:%M:%S')
 masterClkThread = threading.Thread(
     target=lambda: runMasterClock())
 masterClkThread.start()
-
-#Send Tiempo
-threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
-threadSend.start()
-
-threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
-threadSendRequest.start()
-
-#Recive Tiempo
-threadReceive=threading.Thread(target=lambda: reciveTiempo())
-threadReceive.start()
 
 # Creating and starting the socket-listening thread
 socketThread = threading.Thread(target=acceptConnections)
