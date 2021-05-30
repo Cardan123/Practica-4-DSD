@@ -90,13 +90,13 @@ def runMasterClock():
     time_new = tiempo [0]
     global pause
     global factor
-    if parar1 == 0:
-        while pause == False:
+    while pause == False:
+        if parar1 == 0:
             time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
             txtVarClk0.set(time_new)
             sleep(1*factor)
-    else:
-        break
+        else:
+            break
 
 
 def sendBookInfo(connection):
@@ -190,14 +190,15 @@ def createResetThread(connection2, c3):
 
 def acceptConnections():
     global parar5
-    if parar5 == 0:
-        numOfConnections = 0
-        host = '192.168.1.64'  # modify the ip addr as you need
-        port = 12345
-        clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientSocket.bind((host, port))
-        clientSocket.listen(5)
-        while True:
+    
+    numOfConnections = 0
+    host = '192.168.1.64'  # modify the ip addr as you need
+    port = 12345
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.bind((host, port))
+    clientSocket.listen(5)
+    while True:
+        if parar5 == 0:
             c, addr = clientSocket.accept()
             if(addr[0] not in clientIPs and numOfConnections <= 3):
                 clientIPs.append(addr[0])
@@ -207,21 +208,22 @@ def acceptConnections():
                 clientThreads[numOfConnections].start()
                 clientConnections.append(c)
                 numOfConnections += 1
-        clientSocket.close()
-    else:
-        break
+            clientSocket.close()
+        else:
+            break
 
 
 def acceptRequestBooks():
     global parar6
-    if parar6 == 0:
-        numOfConnections2 = 0
-        hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
-        portRequestBook = 12346
-        clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientBookSocket.bind((hostRequestBook, portRequestBook))
-        clientBookSocket.listen(5)
-        while True:
+    
+    numOfConnections2 = 0
+    hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
+    portRequestBook = 12346
+    clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientBookSocket.bind((hostRequestBook, portRequestBook))
+    clientBookSocket.listen(5)
+    while True:
+        if parar6 == 0:
             c, addr = clientBookSocket.accept()
             if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
                 clientIPsBooks.append(addr[0])
@@ -231,21 +233,22 @@ def acceptRequestBooks():
                 clientThreadsBook[numOfConnections2].start()
                 clientConnectionsBooks.append(c)
                 numOfConnections2 += 1
-        clientBookSocket.close()
-    else:
-        break
+            clientBookSocket.close()
+        else:
+            break
 
 
 def acceptResetBooks():
     global parar7
-    if parar7 == 0:
-        numOfConnections3 = 0
-        hostRequestBook3 = '192.168.1.64'  # modify the ip addr as you need
-        portRequestBook3 = 12341
-        clientBookSocket3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientBookSocket3.bind((hostRequestBook3, portRequestBook3))
-        clientBookSocket3.listen(5)
-        while True:
+    
+    numOfConnections3 = 0
+    hostRequestBook3 = '192.168.1.64'  # modify the ip addr as you need
+    portRequestBook3 = 12341
+    clientBookSocket3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientBookSocket3.bind((hostRequestBook3, portRequestBook3))
+    clientBookSocket3.listen(5)
+    while True:
+        if parar7 == 0:
             c, addr = clientBookSocket3.accept()
             if(addr[0] not in clientIPsBooks3 and numOfConnections3 <= 3):
                 clientIPsBooks3.append(addr[0])
@@ -255,50 +258,51 @@ def acceptResetBooks():
                 clientThreadsBook3[numOfConnections3].start()
                 clientConnectionsBooks3.append(c)
                 numOfConnections3 += 1
-        clientBookSocket3.close()
-    else:
-        break
+            clientBookSocket3.close()
+        else:
+            break
 
 
 ##ServerTiempo
 def sendTiempo(hour):
     global parar2
-    if parar2 == 0:
-        time_new=hour
-        global pause
-        global factor
-        while pause==False:
+    time_new=hour
+    global pause
+    global factor
+    while pause==False:
+        if parar2 == 0:
             dataTiempo = pickle.dumps(tiempo)
             sock.send(dataTiempo)
             sleep(1*factor)
-    else:
-        break
+        else:
+            break
 
 def sendRequestHours(request):
     global parar3
-    if parar3 == 0:
-        global pause
-        global factor
-        while pause==False:
+    global pause
+    global factor
+    while pause==False:
+        if parar3 == 0:
             sleep(10)
             sock2.send(request.encode('ascii'))
             sleep(1*factor)
-    else:
-        break
+        else:
+            break
 
 def reciveTiempo():
     global parar4
-    if parar4 == 0:
-        global factor
-        global pause
-        global tiempo
-        while True:
-            #receiving book
-            # Creating and starting the socket-listening thread
+    
+    global factor
+    global pause
+    global tiempo
+    while True:
+        if parar4 == 0:
+        #receiving book
+        # Creating and starting the socket-listening thread
             sleep(10)
             tiempo = pickle.loads(sock2.recv(1024))
-    else:
-        break;
+        else:
+            break;
 
 
 # -----------
