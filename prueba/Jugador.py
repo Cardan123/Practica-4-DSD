@@ -8,7 +8,7 @@ import random
 
 
 
-HOST = '192.168.1.65'  # The server's hostname or IP address
+HOST = '192.168.1.64'  # The server's hostname or IP address
 PORT = 65432        # The port used by the server
 random.seed(99)
 class clockClient:	#Clase Reloj

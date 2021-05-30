@@ -2,7 +2,7 @@ import socket
 import mysql.connector
 from time import sleep
 
-IP = "192.168.1.65"
+IP = "192.168.1.64"
 PORT = 60900
 
 mydb = mysql.connector.connect(
