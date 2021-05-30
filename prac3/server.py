@@ -86,43 +86,56 @@ def validateMasterHour(hour):
 
 def runMasterClock():
     time_new = tiempo [0]
-    time_new1 = tiempo [1]
-    time_new2 = tiempo [2]
-    time_new3 = tiempo [3]
     global pause
     global factor
     while pause == False:
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-
-        time_new1 = validateMasterHour(time_new1.split(
-            ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
-
-        time_new2 = validateMasterHour(time_new1.split(
-            ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
-
-        time_new3 = validateMasterHour(time_new1.split(
-            ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
         
         txtVarClk0.set(time_new)
-        txtVarClk1.set(time_new1)
-        txtVarClk2.set(time_new2)
-        txtVarClk3.set(time_new3)
 
         print(tiempo)
-
-        #Send Tiempo
-        threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
-        threadSend.start()
-
-        threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
-        threadSendRequest.start()
-
-        #Recive Tiempo
-        threadReceive=threading.Thread(target=lambda: reciveTiempo())
-        threadReceive.start()
         sleep(1*factor)
 
+
+def runClock1():
+    time_new = tiempo [1]
+    global pause
+    global factor
+    while pause == False:
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        
+        txtVarClk0.set(time_new)
+
+        print(tiempo)
+        sleep(1*factor)
+
+def runClock2():
+    time_new = tiempo [2]
+    global pause
+    global factor
+    while pause == False:
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        
+        txtVarClk0.set(time_new)
+
+        print(tiempo)
+        sleep(1*factor)
+
+def runClock3():    
+    time_new = tiempo [3]
+    global pause
+    global factor
+    while pause == False:
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        
+        txtVarClk0.set(time_new)
+
+        print(tiempo)
+        sleep(1*factor)
 
 def sendBookInfo(connection):
     # generate random book
@@ -392,6 +405,29 @@ tiempo[0] = strftime('%H:%M:%S')
 masterClkThread = threading.Thread(
     target=lambda: runMasterClock())
 masterClkThread.start()
+
+masterClkThread = threading.Thread(
+    target=lambda: runClock1())
+masterClkThread.start()
+
+masterClkThread = threading.Thread(
+    target=lambda: runrClock2())
+masterClkThread.start()
+
+masterClkThread = threading.Thread(
+    target=lambda: runrClock3())
+masterClkThread.start()
+
+#Send Tiempo
+threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
+threadSend.start()
+
+threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
+threadSendRequest.start()
+
+#Recive Tiempo
+threadReceive=threading.Thread(target=lambda: reciveTiempo())
+threadReceive.start()
 
 # Creating and starting the socket-listening thread
 socketThread = threading.Thread(target=acceptConnections)
