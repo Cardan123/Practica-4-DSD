@@ -312,7 +312,7 @@ def reciveTiempo():
         txtVarClks[2].set(time_new)
 
 
-        sleep(1*factor)
+        sleep(1*20)
         #print(tiempoSincro)
 # -----------
 #   GUI
