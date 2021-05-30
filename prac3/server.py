@@ -264,7 +264,7 @@ def acceptResetBooks():
 
 ##ServerTiempo
 def sendTiempo(hour):
-    global parar2 = 0
+    global parar2
     if parar2 == 0:
         time_new=hour
         global pause
