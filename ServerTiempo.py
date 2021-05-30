@@ -51,7 +51,7 @@ books = [
 ]
 
 tiempo = ['00:00:00','00:00:00','00:00:00','00:00:00']
-
+tiempoSincro = []
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -83,9 +83,11 @@ def calcularDiferencias(horaCliente, horaServer):
 
 
 def sendBookInfo(connection):
-    
-
-    clientConnectionsBooks[connection].send(str("hola").encode('ascii'))
+    print(tiempoSincro)
+    dataTiempo = pickle.dumps(tiempoSincro)
+    sock.send(dataTiempo)
+    clientConnectionsBooks[connection].send(dataTiempo)
+    sleep(1*factor)
     
 
 def createClientThread(connection, c):
@@ -146,14 +148,14 @@ def createClientThread(connection, c):
             pos += 1
 
         #print ("nuevas Horas: "+ str(nuevasHoras))
-        tiempoSincro = []
+        
         tiempoSincro.append(str(int(nuevasHoras[0]//60)).zfill(2)+':'+str(int(nuevasHoras[0]-((nuevasHoras[0]//60)*60))).zfill(2)+":0")
         tiempoSincro.append(str(int(nuevasHoras[1]//60)).zfill(2)+':'+str(int(nuevasHoras[1]-((nuevasHoras[1]//60)*60))).zfill(2)+":0")
         tiempoSincro.append(str(int(nuevasHoras[2]//60)).zfill(2)+':'+str(int(nuevasHoras[2]-((nuevasHoras[2]//60)*60))).zfill(2)+":0")
         tiempoSincro.append(str(int(nuevasHoras[3]//60)).zfill(2)+':'+str(int(nuevasHoras[3]-((nuevasHoras[3]//60)*60))).zfill(2)+":0")
 
-        print(tiempo)
-        print(tiempoSincro)
+        #print(tiempo)
+        #print(tiempoSincro)
         
     c.close()
 
