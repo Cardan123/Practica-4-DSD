@@ -146,7 +146,7 @@ def createClientThread(connection, c):
             pos += 1
 
         #print ("nuevas Horas: "+ str(nuevasHoras))
-
+        tiempo = []
         while i in range (4):
             horaaux = nuevasHoras[0]//60
             minutosaux = nuevasHoras[0] - (horaaux*60)
