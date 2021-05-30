@@ -97,14 +97,14 @@ def sendBookInfo(connection):
     horas = []
     diferencias = []
 
-    horaServer = [retornarHoras(tiemo[0]),retornarMins[tiempo[0]]]
+    horaServer = [retornarHoras(tiempo[0]),retornarMins[tiempo[0]]]
     diferenciaServer = calcularDiferencias(horaServer, horaServer)
     diferencias.append(diferenciaServer)
     horas.append(str(horaServer))
 
-    horaCliente1 = [retornarHoras(tiemo[1]),retornarMins[tiempo[1]]]
-    horaCliente2 = [retornarHoras(tiemo[2]),retornarMins[tiempo[2]]]
-    horaCliente3 = [retornarHoras(tiemo[3]),retornarMins[tiempo[3]]]
+    horaCliente1 = [retornarHoras(tiempo[1]),retornarMins[tiempo[1]]]
+    horaCliente2 = [retornarHoras(tiempo[2]),retornarMins[tiempo[2]]]
+    horaCliente3 = [retornarHoras(tiempo[3]),retornarMins[tiempo[3]]]
     diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
     diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
     diferenciaCliente3 = calcularDiferencias(horaCliente2, horaServer)
