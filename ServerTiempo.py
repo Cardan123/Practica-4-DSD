@@ -147,12 +147,6 @@ def createClientThread(connection, c):
 
         #print ("nuevas Horas: "+ str(nuevasHoras))
         print(tiempo)
-        tiempo = []
-        while i in range (4):
-            horaaux = int(nuevasHoras[0]//60)
-            minutosaux = int(nuevasHoras[0] - (horaaux*60))
-            tiempo.append(str(horaaux)+":"+str(minutosaux)+":"+"00")
-        print(tiempo)
     c.close()
 
 
