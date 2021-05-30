@@ -281,6 +281,7 @@ def sendRequestHours(request):
     global pause
     global factor
     while pause==False:
+        sleep(30)
         sock2.send(request.encode('ascii'))
         sleep(1*factor)
 
@@ -289,7 +290,7 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
-        sleep(60)
+        sleep(30)
         tiempo = pickle.loads(sock2.recv(1024))
         time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
