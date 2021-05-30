@@ -98,19 +98,19 @@ def runMasterClock():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk2.set(time_new)
 
         time_new = tiempo [2]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk2.set(time_new)
 
         time_new = tiempo [3]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk3.set(time_new)
         sleep(1*factor)
 
 
