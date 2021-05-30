@@ -16,6 +16,7 @@ import os
 import psycopg2
 
 #MAIN SERVER
+json_filename = 'books.json'
 clientThreads = []  # List of client threads
 clientIPs = []  # List of client IPs
 clientConnections = []  # List of clients connection tuple
@@ -23,17 +24,28 @@ clientClockSpeeds = [0, 0, 0, 0]  # Speed of each clock
 masterClockSpeed = 0
 factor = 1.0
 
-#DATA FROM BOOKS REQUEST
 clientThreadsBook = []  # List of client threads
 clientIPsBooks = []  # List of client IPs
 clientConnectionsBooks = []  # List of clients connection tuple
 factor2 = 1.0
 pause = False  # Pause flag fors master clock
 
-#DATA FROM RESET REQUEST
-clientIPsReset = []  # List of client IPs
-clientConnectionsReset = []  # List of clients connection tuple
-clientThreadsReset = []  # List of client threads
+
+clientIPsBooks3 = []  # List of client IPs
+clientConnectionsBooks3 = []  # List of clients connection tuple
+clientThreadsBook3 = []  # List of client threads
+
+host='192.168.1.65'  #modify the ip addr as you need (server that gives the HOUR)
+port=12350          #(MAIN SERVER, port that gives hour)
+sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+sock.connect((host,port))
+pause=False
+factor=1.0
+
+host2='192.168.1.65'  #modify the ip addr as you need 
+port2=12351          #(MAIN SERVER, port that gives the BOOKS)
+sock2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+sock2.connect((host2,port2))
 
 books = [
     {'ISBN': '0984782869', 'name': 'Cracking the coding interview', 'author': 'Gayle Laakmann',
@@ -54,7 +66,7 @@ books = [
         'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
 ]
 
-
+tiempo = ['0:0:0','0:0:0','0:0:0','0:0:0']
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -70,34 +82,20 @@ def validateMasterHour(hour):
     return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
 
-def editMasterHour():
-    global pause
-    pause = True
-    hour = simpledialog.askstring("Editar hora maestra", "Escribe la nueva hora (HH:MM:SS)",
-                                  parent=window, initialvalue=txtVarClk0.get())
-    if hour == None:  # if the user selects "cancel"
-        hour = txtVarClk0.get()
-    pause = False
-    masterClkThread = threading.Thread(target=lambda: runMasterClock(hour))
-    masterClkThread.start()
 
-
-def editMasterSpeed(power):
-    global factor
-    global masterClockSpeed
-    masterClockSpeed = masterClockSpeed+power
-    factor = pow(2, masterClockSpeed)
-
-
-def runMasterClock(hour):
-    time_new = hour
+def runMasterClock():
+    global parar1
+    global tiempo
+    time_new = tiempo [0]
     global pause
     global factor
     while pause == False:
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClk0.set(time_new)
-        sleep(1*factor)
+        if parar1 == 0:
+            time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+            txtVarClk0.set(time_new)
+            sleep(1*factor)
+        else:
+            break
 
 
 def sendBookInfo(connection):
@@ -108,7 +106,6 @@ def sendBookInfo(connection):
     print(clientConnectionsBooks[connection].getsockname()[0])
     print(clientConnectionsBooks[connection].getsockname()[1])
     if lengBooks >= 1:
-        #i=random.randint(0, lengBooks)
         i = 0
         book = books[i]['name']
         image = books[i]['portada']
@@ -123,7 +120,7 @@ def sendBookInfo(connection):
         conn = psycopg2.connect(
             dbname='postgres', user='cardan', password='12345', host='localhost', port='5432')
         cursor = conn.cursor()
-        query = '''INSERT INTO requestbooksbackup(ip, hora, libro) VALUES (%s,%s,%s);'''
+        query = '''INSERT INTO requestBooks(ip, hora, libro) VALUES (%s,%s,%s);'''
         # values to send to database
         cursor.execute(query, (iprequest, request_time, book))
         print('Data saved')
@@ -134,23 +131,22 @@ def sendBookInfo(connection):
         clientConnectionsBooks[connection].send(str(book).encode('ascii'))
     else:
         img['file'] = 'preview.png'
-        message = 'no hay libros'
+        message = 'Libros terminados'
         clientConnectionsBooks[connection].send(message.encode('ascii'))
 
 
-def editSpeed(connection, power):
-    clientClockSpeeds[connection] = clientClockSpeeds[connection]+power
-    clientFactor = pow(2, clientClockSpeeds[connection])
-    clientConnections[connection].send(str(clientFactor).encode('ascii'))
 
 # run enviroment for the "newThread" thread: reads the data sent from clients
 # and puts the data into the corresponding StringVar for clocks update
 
 def createClientThread(connection, c):
+    global tiempo
     while True:
         data = c.recv(1024)
         print(data)
-        txtVarClks[connection].set(data.decode('ascii'))
+        if(connection != 3):
+            tiempo[connection+1] = (data.decode('ascii'))
+        txtVarClks[connection].set(tiempo[connection+1])
     c.close()
 
 
@@ -162,9 +158,9 @@ def createRequestThread(connection2, c2):
     c2.close()
 
 
-def createResetThread(connection2, c2):
+def createResetThread(connection2, c3):
     while True:
-        data2 = c2.recv(1024)
+        data2 = c3.recv(1024)
         print(data2)
         global books 
         books = [
@@ -185,8 +181,7 @@ def createResetThread(connection2, c2):
             {'ISBN': '1108422098', 'name': 'Data-Driven Science and Engineering', 'author': 'Steven L Brunton',
              'editorial': 'Cambridge University Press', 'price': 1256, 'portada': 'data.png'}
         ]
-
-    c2.close()
+    c3.close()
 # run enviroment for the "socketThread" thread: starts the socket, puts the socket in listen mode
 # and creates a new thread for each new client connection
 
@@ -249,6 +244,48 @@ def acceptResetBooks():
             clientConnectionsReset.append(c)
             numOfConnections3 += 1
     clientBookSocket3.close()
+
+
+##ServerTiempo
+def sendTiempo(hour):
+    global parar2
+    time_new=hour
+    global pause
+    global factor
+    while pause==False:
+        if parar2 == 0:
+            sleep(10)
+            dataTiempo = pickle.dumps(tiempo)
+            sock.send(dataTiempo)
+        else:
+            break
+
+def sendRequestHours(request):
+    global parar3
+    global pause
+    global factor
+    while pause==False:
+        if parar3 == 0:
+            sleep(10)
+            sock2.send(request.encode('ascii'))
+            sleep(1*factor)
+        else:
+            break
+
+def reciveTiempo():
+    global parar4
+    global tiempo
+    global factor
+    global pause
+    while True:
+        if parar4 == 0:
+        #receiving book
+        # Creating and starting the socket-listening thread
+            sleep(10)
+            tiempo = pickle.loads(sock2.recv(1024))
+            print(tiempo)
+        else:
+            break;
 
 # -----------
 #   GUI
@@ -337,21 +374,39 @@ img = img.subsample(2)
 label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
+#Send Tiempo
+parar2=0
+threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
+threadSend.start()
+
+parar3=0
+threadSendRequest=threading.Thread(target=lambda: sendRequestHours("Sincronizar"))
+threadSendRequest.start()
+
+#Recive Tiempo
+parar4=0
+threadReceive=threading.Thread(target=lambda: reciveTiempo())
+threadReceive.start()
+
+
 # Creating and starting master clock thread
-masterClkThread = threading.Thread(
-    target=lambda: runMasterClock(strftime('%H:%M:%S')))
+tiempo[0] = strftime('%H:%M:%S')
+parar1=0
+masterClkThread = threading.Thread(target=lambda: runMasterClock())
 masterClkThread.start()
 
 # Creating and starting the socket-listening thread
+parar5=0
 socketThread = threading.Thread(target=acceptConnections)
 socketThread.start()
 
 # Socket to listen request
+parar6=0
 socketRequestThread = threading.Thread(target=acceptRequestBooks)
 socketRequestThread.start()
 
 # Socket to listen reset
+parar7=0
 socketResetThread = threading.Thread(target=acceptResetBooks)
 socketResetThread.start()
-
 window.mainloop()
