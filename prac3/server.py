@@ -279,7 +279,6 @@ def sendTiempo(hour):
         sleep(1*factor)
 
 def sendRequestHours(request):
-    time_new=hour
     global pause
     global factor
     while pause==False:
