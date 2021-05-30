@@ -274,6 +274,19 @@ def reciveTiempo():
         socketThread.join()
         socketRequestThread.join()
         socketResetThread.join()
+        # Creating and starting the socket-listening thread
+        socketThread = threading.Thread(target=acceptConnections)
+        socketThread.start()
+
+        # Socket to listen request
+        socketRequestThread = threading.Thread(target=acceptRequestBooks)
+        socketRequestThread.start()
+
+        # Socket to listen reset
+        socketResetThread = threading.Thread(target=acceptResetBooks)
+        socketResetThread.start()
+
+
 # -----------
 #   GUI
 # -----------
