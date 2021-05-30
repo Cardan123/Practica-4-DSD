@@ -93,8 +93,6 @@ def runMasterClock():
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
         txtVarClk0.set(time_new)
-
-        print(tiempo)
         sleep(1*factor)
 
 
@@ -106,9 +104,9 @@ def runClock1():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk1.set(time_new)
 
-        print(tiempo)
+        
         sleep(1*factor)
 
 def runClock2():
@@ -119,9 +117,9 @@ def runClock2():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk2.set(time_new)
 
-        print(tiempo)
+
         sleep(1*factor)
 
 def runClock3():    
@@ -132,9 +130,8 @@ def runClock3():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(time_new)
+        txtVarClk3.set(time_new)
 
-        print(tiempo)
         sleep(1*factor)
 
 def sendBookInfo(connection):
