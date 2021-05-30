@@ -300,7 +300,7 @@ def reciveTiempo():
         # Creating and starting the socket-listening thread
             sleep(10)
             tiempo = pickle.loads(sock2.recv(1024))
-            print(pickle.loads(sock2.recv(1024)))
+            print(tiempo)
             
             time_new = tiempo [0]
             time_new1 = tiempo [1]
@@ -417,7 +417,7 @@ label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
 # Creating and starting master clock thread
-#tiempo[0] = strftime('%H:%M:%S')
+tiempo[0] = strftime('%H:%M:%S')
 parar1=0
 masterClkThread = threading.Thread(target=lambda: runMasterClock())
 masterClkThread.start()
