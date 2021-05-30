@@ -290,28 +290,28 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
-        tiempoSincro = pickle.loads(sock2.recv(1024))
-        time_new = tiempoSincro[0]
+        tiempo = pickle.loads(sock2.recv(1024))
+        time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClk0.set(time_new)
 
-        time_new = tiempoSincro[1]
+        time_new = tiempo[1]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClks[0].set(time_new)
 
-        time_new = tiempoSincro[2]
+        time_new = tiempo[2]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClks[1].set(time_new)
 
-        time_new = tiempoSincro[3]
+        time_new = tiempo[3]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClks[2].set(time_new)
 
-        tiempo = tiempoSincro
+
         sleep(1*factor)
         #print(tiempoSincro)
 # -----------
