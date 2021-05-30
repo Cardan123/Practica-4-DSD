@@ -54,11 +54,11 @@ def validateHour(hour):
 def receiveData():
     global factor
     global pause
+    global tiempo
     while True:
         #receiving book
         code = (sock2.recv(1024)).decode('ascii')
         print(code)
-        sleep(10)
         tiempo = (sock2.recv(1024)).decode('ascii')
         print(tiempo)
         txtVarClk0.set(code)
