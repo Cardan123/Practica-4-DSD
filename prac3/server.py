@@ -401,8 +401,9 @@ label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
 # Creating and starting master clock thread
+tiempo[0] = strftime('%H:%M:%S')
 masterClkThread = threading.Thread(
-    target=lambda: runMasterClock(strftime('%H:%M:%S')))
+    target=lambda: runMasterClock(tiempo[0]))
 masterClkThread.start()
 
 #Send Tiempo
