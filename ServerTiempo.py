@@ -118,7 +118,36 @@ def createClientThread(connection, c):
         print ("hora cliente 3: "+ str(horaCliente2))
         print ("hora cliente 4: "+ str(horaCliente3))
         print ("diferencias: "+str(diferencias))
-        print(tiempo)
+
+        nuevasHoras = []
+        minutos = []
+        for hora in horas:
+            while(i<len(horas)):
+                minutos.append(horas[i][0]*60+horas[i][1])
+                i += 1
+        print ("minutos: "+ str(minutos))
+
+        cantidadDiferencias = len(diferencias)
+        suma = 0
+        for diferencia in diferencias:
+            suma = suma + diferencia
+        promedio = suma / cantidadDiferencias
+        print ("promedio : " + str(promedio))
+
+        nuevasDiferencias = []
+        for diferencia in diferencias:
+            nuevasDiferencias.append(promedio-diferencia)
+        print ("nuevas Diferencias: "+ str(nuevasDiferencias))
+        pos = 0
+        nuevasHoras = []
+        for nuevaDiferencia in nuevasDiferencias:
+            nuevasHoras.append(minutos[pos] + nuevaDiferencia)
+            pos += 1
+
+        print ("nuevas Horas: "+ str(nuevasHoras))
+
+        print (nuevasHoras)
+        nuevaHora = []
     c.close()
 
 
