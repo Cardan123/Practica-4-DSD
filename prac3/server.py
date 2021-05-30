@@ -271,9 +271,9 @@ def sendTiempo(hour):
     global factor
     while pause==False:
         if parar2 == 0:
+            sleep(10)
             dataTiempo = pickle.dumps(tiempo)
             sock.send(dataTiempo)
-            sleep(1*factor)
         else:
             break
 
