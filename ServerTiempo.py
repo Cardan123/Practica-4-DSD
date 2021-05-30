@@ -146,7 +146,15 @@ def createClientThread(connection, c):
             pos += 1
 
         #print ("nuevas Horas: "+ str(nuevasHoras))
+        tiempoSincro = []
+        tiempoSincro.append(str((nuevasHoras[0]//60)+':'+(nuevasHoras[0]-((nuevasHoras[0]//60)*60))+':'+"0"))
+        tiempoSincro.append(str((nuevasHoras[1]//60)+':'+(nuevasHoras[1]-((nuevasHoras[1]//60)*60))+':'+"0"))
+        tiempoSincro.append(str((nuevasHoras[2]//60)+':'+(nuevasHoras[2]-((nuevasHoras[2]//60)*60))+':'+"0"))
+        tiempoSincro.append(str((nuevasHoras[3]//60)+':'+(nuevasHoras[3]-((nuevasHoras[3]//60)*60))+':'+"0"))
+
         print(tiempo)
+        print(tiempoSincro)
+        
     c.close()
 
 
