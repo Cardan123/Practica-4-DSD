@@ -57,6 +57,7 @@ def receiveData():
     while True:
         #receiving book
         code = (sock2.recv(1024)).decode('ascii')
+        tiempo = (sock2.recv(1024)).decode('ascii')
         print(code)
         txtVarClk0.set(code)
         
@@ -66,8 +67,9 @@ def generateRandomHour():
     s=str(randint(0,59))
     return h.zfill(2)+':'+m.zfill(2)+':'+s.zfill(2)
 
-def runClock(hour):
-    time_new=hour
+def runClock():
+    global tiempo
+    time_new = tiempo
     global pause
     global factor
     while pause==False:
@@ -98,6 +100,7 @@ def resetBooks():
     threadSendReset=threading.Thread(target=lambda: sendResetBook(request))
     threadSendReset.start()
 
+tiempo = generateRandomHour()
 window = tk.Tk()
 window.geometry('520x420')
 window.title('Client')
@@ -116,7 +119,7 @@ button.pack()
 buttonreset = tk.Button(window, text="Reiniciar libros", fg="black", command=resetBooks)
 buttonreset.pack()
 
-threadSend=threading.Thread(target=lambda: runClock(generateRandomHour()))
+threadSend=threading.Thread(target=lambda: runClock(tiempo))
 threadSend.start()
 
 threadReceive=threading.Thread(target=lambda: receiveData())
