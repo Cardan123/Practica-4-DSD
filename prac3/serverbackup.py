@@ -375,6 +375,13 @@ img = img.subsample(2)
 label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
+
+# Creating and starting master clock thread
+tiempo[0] = strftime('%H:%M:%S')
+parar1=0
+masterClkThread = threading.Thread(target=lambda: runMasterClock())
+masterClkThread.start()
+
 #Send Tiempo
 parar2=0
 threadSend=threading.Thread(target=lambda: sendTiempo(txtVarClks))
@@ -388,13 +395,6 @@ threadSendRequest.start()
 parar4=0
 threadReceive=threading.Thread(target=lambda: reciveTiempo())
 threadReceive.start()
-
-
-# Creating and starting master clock thread
-tiempo[0] = strftime('%H:%M:%S')
-parar1=0
-masterClkThread = threading.Thread(target=lambda: runMasterClock())
-masterClkThread.start()
 
 # Creating and starting the socket-listening thread
 parar5=0
