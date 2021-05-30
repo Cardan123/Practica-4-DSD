@@ -51,7 +51,7 @@ books = [
 ]
 
 tiempo = ['00:00:00','00:00:00','00:00:00','00:00:00']
-tiempoSincro = []
+tiempoSincro = ['00:00:00','00:00:00','00:00:00','00:00:00']
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -147,11 +147,11 @@ def createClientThread(connection, c):
             pos += 1
 
         #print ("nuevas Horas: "+ str(nuevasHoras))
-        
-        tiempoSincro.append(str(int(nuevasHoras[0]//60)).zfill(2)+':'+str(int(nuevasHoras[0]-((nuevasHoras[0]//60)*60))).zfill(2)+":0")
-        tiempoSincro.append(str(int(nuevasHoras[1]//60)).zfill(2)+':'+str(int(nuevasHoras[1]-((nuevasHoras[1]//60)*60))).zfill(2)+":0")
-        tiempoSincro.append(str(int(nuevasHoras[2]//60)).zfill(2)+':'+str(int(nuevasHoras[2]-((nuevasHoras[2]//60)*60))).zfill(2)+":0")
-        tiempoSincro.append(str(int(nuevasHoras[3]//60)).zfill(2)+':'+str(int(nuevasHoras[3]-((nuevasHoras[3]//60)*60))).zfill(2)+":0")
+
+        tiempoSincro[0] = str(int(nuevasHoras[0]//60)).zfill(2)+':'+str(int(nuevasHoras[0]-((nuevasHoras[0]//60)*60))).zfill(2)+":0"
+        tiempoSincro[1] = str(int(nuevasHoras[1]//60)).zfill(2)+':'+str(int(nuevasHoras[1]-((nuevasHoras[1]//60)*60))).zfill(2)+":0"  
+        tiempoSincro[2] = str(int(nuevasHoras[2]//60)).zfill(2)+':'+str(int(nuevasHoras[2]-((nuevasHoras[2]//60)*60))).zfill(2)+":0"
+        tiempoSincro[3] = str(int(nuevasHoras[3]//60)).zfill(2)+':'+str(int(nuevasHoras[3]-((nuevasHoras[3]//60)*60))).zfill(2)+":0"
 
         #print(tiempo)
         #print(tiempoSincro)
