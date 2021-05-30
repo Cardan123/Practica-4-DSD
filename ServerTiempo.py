@@ -66,17 +66,6 @@ def validateMasterHour(hour):
                 hours = 0
     return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
-def retornarHoras(hour):
-    hours = int(hour.split(':')[0])
-    return hours
-
-def retornarMins(hour):
-    mins = int(hour.split(':')[1])
-    return mins
-
-def retornarSecs(hour):
-    secs = int(hour.split(':')[2])
-    return secs
 
 def calcularDiferencias(horaCliente, horaServer):
 
@@ -94,29 +83,7 @@ def calcularDiferencias(horaCliente, horaServer):
 
 
 def sendBookInfo(connection):
-    horas = []
-    diferencias = []
-
-    horaServer = [int(tiempo[0].split(':')[0]),int(tiempo[0].split(':')[1])]
-    diferenciaServer = calcularDiferencias(horaServer, horaServer)
-    diferencias.append(diferenciaServer)
-    horas.append(str(horaServer))
-
-    horaCliente1 = [int(tiempo[1].split(':')[0]),int(tiempo[1].split(':')[1])]
-    horaCliente2 = [int(tiempo[2].split(':')[0]),int(tiempo[2].split(':')[1])]
-    horaCliente3 = [int(tiempo[3].split(':')[0]),int(tiempo[3].split(':')[1])]
-    diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
-    diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
-    diferenciaCliente3 = calcularDiferencias(horaCliente2, horaServer)
-    diferencias.append(diferenciaCliente1)
-    diferencias.append(diferenciaCliente2)
-    diferencias.append(diferenciaCliente3)
-    horas.append(str(horaCliente1))
-    horas.append(str(horaCliente2))
-    horas.append(str(horaCliente3))
-
-    print ("hora servidor : "+ str(horaServer))
-    print ("hora cliente 1: "+ str(horaCliente1))
+    
 
     clientConnectionsBooks[connection].send(str("hola").encode('ascii'))
     
@@ -125,6 +92,29 @@ def createClientThread(connection, c):
     while True:
         data = c.recv(1024)
         tiempo = pickle.loads(data)
+        horas = []
+        diferencias = []
+
+        horaServer = [int(tiempo[0].split(':')[0]),int(tiempo[0].split(':')[1])]
+        diferenciaServer = calcularDiferencias(horaServer, horaServer)
+        diferencias.append(diferenciaServer)
+        horas.append(str(horaServer))
+
+        horaCliente1 = [int(tiempo[1].split(':')[0]),int(tiempo[1].split(':')[1])]
+        horaCliente2 = [int(tiempo[2].split(':')[0]),int(tiempo[2].split(':')[1])]
+        horaCliente3 = [int(tiempo[3].split(':')[0]),int(tiempo[3].split(':')[1])]
+        diferenciaCliente1 = calcularDiferencias(horaCliente1, horaServer)
+        diferenciaCliente2 = calcularDiferencias(horaCliente2, horaServer)
+        diferenciaCliente3 = calcularDiferencias(horaCliente2, horaServer)
+        diferencias.append(diferenciaCliente1)
+        diferencias.append(diferenciaCliente2)
+        diferencias.append(diferenciaCliente3)
+        horas.append(str(horaCliente1))
+        horas.append(str(horaCliente2))
+        horas.append(str(horaCliente3))
+
+        print ("hora servidor : "+ str(horaServer))
+        print ("hora cliente 1: "+ str(horaCliente1))
         print(tiempo)
     c.close()
 
