@@ -412,11 +412,11 @@ Clk1Thread = threading.Thread(
 Clk1Thread.start()
 
 Clk2Thread = threading.Thread(
-    target=lambda: runrClock2())
+    target=lambda: runClock2())
 Clk2Thread.start()
 
 Clk3Thread = threading.Thread(
-    target=lambda: runrClock3())
+    target=lambda: runClock3())
 Clk3Thread.start()
 
 #Send Tiempo
