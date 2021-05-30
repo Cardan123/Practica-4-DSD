@@ -92,7 +92,7 @@ def runMasterClock():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         
-        txtVarClk0.set(tiempo[0])
+        txtVarClk0.set(time_new)
         sleep(1*factor)
 
 
