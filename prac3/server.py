@@ -291,19 +291,21 @@ def sendRequestHours(request):
 
 def reciveTiempo():
     global parar4
-    
+    global tiempo
     global factor
     global pause
-    time_new = tiempo [0]
-    time_new1 = tiempo [1]
-    time_new2 = tiempo [2]
-    time_new3 = tiempo [3]
     while True:
         if parar4 == 0:
         #receiving book
         # Creating and starting the socket-listening thread
             sleep(10)
-            global tiempo = pickle.loads(sock2.recv(1024))
+            tiempo = pickle.loads(sock2.recv(1024))
+            print(pickle.loads(sock2.recv(1024)))
+            
+            time_new = tiempo [0]
+            time_new1 = tiempo [1]
+            time_new2 = tiempo [2]
+            time_new3 = tiempo [3]
             
             time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
             txtVarClk0.set(time_new)
