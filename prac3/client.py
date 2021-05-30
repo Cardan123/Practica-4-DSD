@@ -57,9 +57,10 @@ def receiveData():
     while True:
         #receiving book
         code = (sock2.recv(1024)).decode('ascii')
+        print(code)
+        sleep(10)
         tiempo = (sock2.recv(1024)).decode('ascii')
         print(tiempo)
-        print(code)
         txtVarClk0.set(code)
         
 def generateRandomHour():
@@ -120,7 +121,7 @@ button.pack()
 buttonreset = tk.Button(window, text="Reiniciar libros", fg="black", command=resetBooks)
 buttonreset.pack()
 
-threadSend=threading.Thread(target=lambda: runClock(tiempo))
+threadSend=threading.Thread(target=lambda: runClock())
 threadSend.start()
 
 threadReceive=threading.Thread(target=lambda: receiveData())
