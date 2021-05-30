@@ -169,6 +169,13 @@ def createRequestThread(connection2, c2):
         data2 = c2.recv(1024)
         print(data2)
         sendBookInfo2(connection2)
+        # Creating and starting the socket-listening thread
+        socketThread = threading.Thread(target=acceptConnections2)
+        socketThread.start()
+
+        # Socket to listen request
+        socketRequestThread = threading.Thread(target=acceptRequestBooks2)
+        socketRequestThread.start()
     c2.close()
 
 def createClientThread2(connection, c):
@@ -346,13 +353,7 @@ socketThread.start()
 socketRequestThread = threading.Thread(target=acceptRequestBooks)
 socketRequestThread.start()
 
-# Creating and starting the socket-listening thread
-socketThread = threading.Thread(target=acceptConnections2)
-socketThread.start()
 
-# Socket to listen request
-socketRequestThread = threading.Thread(target=acceptRequestBooks2)
-socketRequestThread.start()
 
 
 
