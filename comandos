@@ -8,3 +8,4 @@ bcdedit /set hypervisorlaunchtype auto #
 git add .
 git commit -m "Prueba"
 git push
+s
