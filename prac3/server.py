@@ -68,7 +68,6 @@ books = [
 ]
 
 tiempo = ['0:0:0','0:0:0','0:0:0','0:0:0']
-tiempoSincro = ['0:0:0','0:0:0','0:0:0','0:0:0']
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -84,24 +83,6 @@ def validateMasterHour(hour):
     return str(hours).zfill(2)+':'+str(mins).zfill(2)+':'+str(secs).zfill(2)
 
 
-def editMasterHour():
-    global pause
-    pause = True
-    hour = simpledialog.askstring("Editar hora maestra", "Escribe la nueva hora (HH:MM:SS)",
-                                  parent=window, initialvalue=txtVarClk0.get())
-    if hour == None:  # if the user selects "cancel"
-        hour = txtVarClk0.get()
-    pause = False
-    masterClkThread = threading.Thread(target=lambda: runMasterClock(hour))
-    masterClkThread.start()
-
-
-def editMasterSpeed(power):
-    global factor
-    global masterClockSpeed
-    masterClockSpeed = masterClockSpeed+power
-    factor = pow(2, masterClockSpeed)
-
 
 def runMasterClock(hour):
     time_new = hour
@@ -112,7 +93,7 @@ def runMasterClock(hour):
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         tiempo[0] = time_new
-        txtVarClk0.set(tiempo[0])
+        #txtVarClk0.set(tiempo[0])
         sleep(1*factor)
 
 
@@ -153,10 +134,6 @@ def sendBookInfo(connection):
         clientConnectionsBooks[connection].send(message.encode('ascii'))
 
 
-def editSpeed(connection, power):
-    clientClockSpeeds[connection] = clientClockSpeeds[connection]+power
-    clientFactor = pow(2, clientClockSpeeds[connection])
-    clientConnections[connection].send(str(clientFactor).encode('ascii'))
 
 # run enviroment for the "newThread" thread: reads the data sent from clients
 # and puts the data into the corresponding StringVar for clocks update
@@ -167,7 +144,7 @@ def createClientThread(connection, c):
         print(data)
         if(connection != 3):
             tiempo[connection+1] = (data.decode('ascii'))
-        txtVarClks[connection].set(tiempo[connection+1])
+        #txtVarClks[connection].set(tiempo[connection+1])
     c.close()
 
 
