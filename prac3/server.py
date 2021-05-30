@@ -310,6 +310,8 @@ def reciveTiempo():
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         txtVarClks[2].set(time_new)
+
+        tiempo = tiempoSincro
         sleep(1*factor)
         #print(tiempoSincro)
 # -----------
