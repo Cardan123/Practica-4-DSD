@@ -206,6 +206,45 @@ def acceptRequestBooks():
             numOfConnections2 += 1
     clientBookSocket.close()
 
+def acceptConnections2():
+    numOfConnections = 0
+    host = '192.168.1.65'  # modify the ip addr as you need
+    port = 12352
+    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientSocket.bind((host, port))
+    clientSocket.listen(5)
+    while True:
+        c, addr = clientSocket.accept()
+        if(addr[0] not in clientIPs and numOfConnections <= 3):
+            clientIPs.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createClientThread(numOfConnections, c))
+            clientThreads.append(newThread)
+            clientThreads[numOfConnections].start()
+            clientConnections.append(c)
+            numOfConnections += 1
+    clientSocket.close()
+
+
+def acceptRequestBooks2():
+    numOfConnections2 = 0
+    hostRequestBook = '192.168.1.65'  # modify the ip addr as you need
+    portRequestBook = 12353
+    clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientBookSocket.bind((hostRequestBook, portRequestBook))
+    clientBookSocket.listen(5)
+    while True:
+        c, addr = clientBookSocket.accept()
+        if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
+            clientIPsBooks.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createRequestThread(numOfConnections2, c))
+            clientThreadsBook.append(newThread)
+            clientThreadsBook[numOfConnections2].start()
+            clientConnectionsBooks.append(c)
+            numOfConnections2 += 1
+    clientBookSocket.close()
+
 
 
 # -----------
@@ -224,6 +263,15 @@ socketThread.start()
 # Socket to listen request
 socketRequestThread = threading.Thread(target=acceptRequestBooks)
 socketRequestThread.start()
+
+# Creating and starting the socket-listening thread
+socketThread = threading.Thread(target=acceptConnections2)
+socketThread.start()
+
+# Socket to listen request
+socketRequestThread = threading.Thread(target=acceptRequestBooks2)
+socketRequestThread.start()
+
 
 
 

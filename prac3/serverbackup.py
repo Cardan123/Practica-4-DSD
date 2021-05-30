@@ -37,14 +37,14 @@ clientConnectionsBooks3 = []  # List of clients connection tuple
 clientThreadsBook3 = []  # List of client threads
 
 host='192.168.1.65'  #modify the ip addr as you need (server that gives the HOUR)
-port=12350          #(MAIN SERVER, port that gives hour)
+port=12352          #(MAIN SERVER, port that gives hour)
 sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock.connect((host,port))
 pause=False
 factor=1.0
 
 host2='192.168.1.65'  #modify the ip addr as you need 
-port2=12351          #(MAIN SERVER, port that gives the BOOKS)
+port2=12353          #(MAIN SERVER, port that gives the BOOKS)
 sock2 = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 sock2.connect((host2,port2))
 
