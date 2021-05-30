@@ -294,7 +294,6 @@ def reciveTiempo():
     
     global factor
     global pause
-    global tiempo
     time_new = tiempo [0]
     time_new1 = tiempo [1]
     time_new2 = tiempo [2]
@@ -304,11 +303,7 @@ def reciveTiempo():
         #receiving book
         # Creating and starting the socket-listening thread
             sleep(10)
-            tiempo = pickle.loads(sock2.recv(1024))
-            time_new = tiempo [0]
-            time_new1 = tiempo [1]
-            time_new2 = tiempo [2]
-            time_new3 = tiempo [3]
+            global tiempo = pickle.loads(sock2.recv(1024))
             
             time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
             txtVarClk0.set(time_new)
@@ -322,10 +317,10 @@ def reciveTiempo():
             time_new3 = validateMasterHour(time_new3.split(':')[0]+':'+time_new3.split(':')[1]+':'+str(int(time_new3.split(':')[2])+1).zfill(2))
             txtVarClk3.set(time_new3)
 
-            tiempo [0]=time_new 
-            tiempo [1]=time_new1
-            tiempo [2]=time_new2
-            tiempo [3]=time_new3
+            tiempo [0] = time_new 
+            tiempo [1] = time_new1
+            tiempo [2] = time_new2
+            tiempo [3] = time_new3
 
             sleep(1*factor)
         else:
@@ -420,7 +415,7 @@ label = tk.Label(window, image=img)
 label.grid(column=4, row=5, pady=(50, 0), padx=(30, 30), columnspan=3)
 
 # Creating and starting master clock thread
-tiempo[0] = strftime('%H:%M:%S')
+#tiempo[0] = strftime('%H:%M:%S')
 parar1=0
 masterClkThread = threading.Thread(target=lambda: runMasterClock())
 masterClkThread.start()
