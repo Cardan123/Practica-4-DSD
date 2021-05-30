@@ -89,11 +89,25 @@ def runMasterClock(hour):
     global pause
     global factor
     while pause == False:
-        
+        time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        tiempo[0] = time_new
-        #txtVarClk0.set(tiempo[0])
+        txtVarClk0.set(time_new)
+
+        time_new = tiempo[1]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[0].set(time_new)
+
+        time_new = tiempo[2]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[1].set(time_new)
+
+        time_new = tiempo[3]
+        time_new = validateMasterHour(time_new.split(
+            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        txtVarClks[2].set(time_new)   
         sleep(1*factor)
 
 
@@ -270,25 +284,6 @@ def reciveTiempo():
         #receiving book
         sleep(20)
         tiempo = pickle.loads(sock2.recv(1024))
-        time_new = tiempo[0]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClk0.set(time_new)
-
-        time_new = tiempo[1]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[0].set(time_new)
-
-        time_new = tiempo[2]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[1].set(time_new)
-
-        time_new = tiempo[3]
-        time_new = validateMasterHour(time_new.split(
-            ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
-        txtVarClks[2].set(time_new)   
         #print(tiempoSincro)
 # -----------
 #   GUI
