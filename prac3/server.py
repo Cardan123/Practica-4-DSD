@@ -98,7 +98,7 @@ def runMasterClock():
             txtVarClk0.set(time_new)
             sleep(1*factor)
     else:
-        break;
+        break
 
 
 def sendBookInfo(connection):
