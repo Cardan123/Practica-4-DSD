@@ -84,7 +84,7 @@ def validateMasterHour(hour):
 
 
 
-def runMasterClock(hour):
+def runMasterClock():
     time_new = tiempo [0]
     global pause
     global factor
