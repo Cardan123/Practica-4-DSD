@@ -113,11 +113,11 @@ def createClientThread(connection, c):
         horas.append(str(horaCliente2))
         horas.append(str(horaCliente3))
 
-        print ("hora servidor : "+ str(horaServer))
-        print ("hora cliente 1: "+ str(horaCliente1))
-        print ("hora cliente 3: "+ str(horaCliente2))
-        print ("hora cliente 4: "+ str(horaCliente3))
-        print ("diferencias: "+str(diferencias))
+        #print ("hora servidor : "+ str(horaServer))
+        #print ("hora cliente 1: "+ str(horaCliente1))
+        #print ("hora cliente 3: "+ str(horaCliente2))
+        #print ("hora cliente 4: "+ str(horaCliente3))
+        #print ("diferencias: "+str(diferencias))
 
         nuevasHoras = []
         minutos = []
@@ -126,31 +126,32 @@ def createClientThread(connection, c):
         minutos.append(horaCliente1[0]*60+horaCliente1[1])
         minutos.append(horaCliente2[0]*60+horaCliente2[1])
         minutos.append(horaCliente3[0]*60+horaCliente3[1])
-        print ("minutos: "+ str(minutos))
+        #print ("minutos: "+ str(minutos))
 
         cantidadDiferencias = len(diferencias)
         suma = 0
         for diferencia in diferencias:
             suma = suma + diferencia
         promedio = suma / cantidadDiferencias
-        print ("promedio : " + str(promedio))
+        #print ("promedio : " + str(promedio))
 
         nuevasDiferencias = []
         for diferencia in diferencias:
             nuevasDiferencias.append(promedio-diferencia)
-        print ("nuevas Diferencias: "+ str(nuevasDiferencias))
+        #print ("nuevas Diferencias: "+ str(nuevasDiferencias))
         pos = 0
         nuevasHoras = []
         for nuevaDiferencia in nuevasDiferencias:
             nuevasHoras.append(minutos[pos]+nuevaDiferencia)
             pos += 1
 
-        print ("nuevas Horas: "+ str(nuevasHoras))
+        #print ("nuevas Horas: "+ str(nuevasHoras))
 
         while i in range (4):
             horaaux = nuevasHoras[0]//60
             minutosaux = nuevasHoras[0] - (horaaux*60)
             tiempo[i] = str(horaaux)+":"+str(minutosaux)+":"+"00"
+        print(tiempo)
     c.close()
 
 
