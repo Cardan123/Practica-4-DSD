@@ -68,6 +68,7 @@ books = [
 ]
 
 tiempo = ['0:0:0','0:0:0','0:0:0','0:0:0']
+tiempoSincro = ['0:0:0','0:0:0','0:0:0','0:0:0']
 def validateMasterHour(hour):
     hours = int(hour.split(':')[0])
     mins = int(hour.split(':')[1])
@@ -285,8 +286,8 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
-        code = (sock2.recv(1024)).decode('ascii')
-        print(code)
+        tiempo = pickle.loads(sock2.recv(1024))
+        print(tiempo)
 # -----------
 #   GUI
 # -----------
