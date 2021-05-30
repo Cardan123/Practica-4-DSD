@@ -121,6 +121,7 @@ def createClientThread(connection, c):
 
         nuevasHoras = []
         minutos = []
+        i = 0
         for hora in horas:
             while(i<len(horas)):
                 minutos.append(horas[i][0]*60+horas[i][1])
