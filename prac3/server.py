@@ -322,6 +322,11 @@ def reciveTiempo():
             time_new3 = validateMasterHour(time_new3.split(':')[0]+':'+time_new3.split(':')[1]+':'+str(int(time_new3.split(':')[2])+1).zfill(2))
             txtVarClk3.set(time_new3)
 
+            tiempo [0]=time_new 
+            tiempo [1]=time_new1
+            tiempo [2]=time_new2
+            tiempo [3]=time_new3
+
             sleep(1*factor)
         else:
             break;
