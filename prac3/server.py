@@ -108,9 +108,10 @@ def runMasterClock(hour):
     global pause
     global factor
     while pause == False:
-        tiempo[0] = time_new
+        
         time_new = validateMasterHour(time_new.split(
             ':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
+        tiempo[0] = time_new
         txtVarClk0.set(tiempo[0])
         sleep(1*factor)
 
@@ -281,7 +282,7 @@ def sendRequestHours(request):
     global pause
     global factor
     while pause==False:
-        sleep(30)
+        sleep(20)
         sock2.send(request.encode('ascii'))
         sleep(1*factor)
 
@@ -290,7 +291,7 @@ def reciveTiempo():
     global pause
     while True:
         #receiving book
-        sleep(30)
+        sleep(20)
         tiempo = pickle.loads(sock2.recv(1024))
         time_new = tiempo[0]
         time_new = validateMasterHour(time_new.split(
