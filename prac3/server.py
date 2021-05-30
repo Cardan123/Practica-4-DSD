@@ -97,9 +97,17 @@ def runMasterClock():
 
         time_new1 = validateMasterHour(time_new1.split(
             ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
+
+        time_new2 = validateMasterHour(time_new1.split(
+            ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
+
+        time_new3 = validateMasterHour(time_new1.split(
+            ':')[0]+':'+time_new1.split(':')[1]+':'+str(int(time_new1.split(':')[2])+1).zfill(2))
         
         txtVarClk0.set(time_new)
         txtVarClk1.set(time_new1)
+        txtVarClk2.set(time_new2)
+        txtVarClk3.set(time_new3)
         sleep(1*factor)
 
 
@@ -277,7 +285,7 @@ def reciveTiempo():
         sleep(20)
         tiempo = pickle.loads(sock2.recv(1024))
         
-        #print(tiempoSincro)
+        print(tiempo)
 # -----------
 #   GUI
 # -----------
