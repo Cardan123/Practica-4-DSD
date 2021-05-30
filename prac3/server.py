@@ -278,11 +278,7 @@ def sendTiempo(hour):
         sleep(1*factor)
 
 def sendRequestHours(request):
-    global pause
-    global factor
-    while pause==False:
-        sock2.send(request.encode('ascii'))
-    sleep(1*2)
+    sock2.send(request.encode('ascii'))
 
 def reciveTiempo():
     global factor
