@@ -72,7 +72,6 @@ def generateRandomHour():
     return h.zfill(2)+':'+m.zfill(2)+':'+s.zfill(2)
 
 def runClock():
-    
     global pause
     global factor
     while pause==False:

@@ -10,6 +10,19 @@ from datetime import datetime
 import sys
 import os
 import pickle
+import mysql.connector
+
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="cardan",
+    passwd="password",
+    database="Tiempo"
+)
+
+mycursor = mydb.cursor()
+sqlformula = "INSERT INTO Tiempo (tiempo) VALUES(%s)"
+
 
 
 json_filename = 'books.json'
@@ -86,6 +99,8 @@ def sendBookInfo(connection):
     print(tiempoSincro)
     dataTiempo = pickle.dumps(tiempoSincro)
     clientConnectionsBooks[connection].send(dataTiempo)
+    mycursor.execute(sqlformula,tiempo[0])
+    mydb.commit()
     sleep(1*factor)
     
 
