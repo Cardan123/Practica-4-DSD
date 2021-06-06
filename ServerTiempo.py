@@ -16,7 +16,7 @@ import mysql.connector
 mydb = mysql.connector.connect(
     host="localhost",
     user="cardan",
-    passwd="passwrd",
+    passwd="password",
     database="Tiempo"
 )
 
@@ -99,7 +99,8 @@ def sendBookInfo(connection):
     print(tiempoSincro)
     dataTiempo = pickle.dumps(tiempoSincro)
     clientConnectionsBooks[connection].send(dataTiempo)
-    mycursor.execute(sqlformula,"Prueba")
+    aux = ('Prueba')
+    mycursor.execute(sqlformula,aux)
     mydb.commit()
     sleep(1*factor)
     
