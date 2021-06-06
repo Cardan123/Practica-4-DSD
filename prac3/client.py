@@ -72,14 +72,16 @@ def generateRandomHour():
     return h.zfill(2)+':'+m.zfill(2)+':'+s.zfill(2)
 
 def runClock():
-    global tiempo
-    time_new = tiempo
+    
     global pause
     global factor
     while pause==False:
+        global tiempo
+        time_new = tiempo
         time_new=validateHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         sock4.send(time_new.encode('ascii'))
         sock.send(time_new.encode('ascii'))
+        tiempo[0] = time_new
         txtVarClk.set(time_new)
         sleep(1*factor)
 
