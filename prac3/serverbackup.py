@@ -92,8 +92,12 @@ def runMasterClock():
     global factor
     while pause == False:
         if parar1 == 0:
+            global tiempo
+            time_new = tiempo [0]
             time_new = validateMasterHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
             txtVarClk0.set(time_new)
+            txtVarClk0.set(time_new)
+            tiempo[0] = time_new
             sleep(1*factor)
         else:
             break
@@ -143,8 +147,8 @@ def sendBookInfo(connection):
 # and puts the data into the corresponding StringVar for clocks update
 
 def createClientThread(connection, c):
-    global tiempo
     while True:
+        global tiempo
         data = c.recv(1024)
         print(data)
         if(connection != 3):
@@ -277,13 +281,13 @@ def sendRequestHours(request):
 
 def reciveTiempo():
     global parar4
-    global tiempo
     global factor
     global pause
     while True:
         if parar4 == 0:
         #receiving book
         # Creating and starting the socket-listening thread
+            global tiempo
             sleep(10)
             tiempo = pickle.loads(sock2.recv(1024))
             print(tiempo)
