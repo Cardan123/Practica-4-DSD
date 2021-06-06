@@ -96,10 +96,11 @@ def calcularDiferencias(horaCliente, horaServer):
 
 
 def sendBookInfo(connection):
+    global tiempo
     print(tiempoSincro)
     dataTiempo = pickle.dumps(tiempoSincro)
     clientConnectionsBooks[connection].send(dataTiempo)
-    mycursor.execute(sqlformula,(tiempo[0],))
+    mycursor.execute(sqlformula,(tiempoSincro[0],))
     mydb.commit()
     sleep(1*factor)
     
