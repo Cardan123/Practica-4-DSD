@@ -86,8 +86,6 @@ def validateMasterHour(hour):
 
 def runMasterClock():
     global parar1
-    global tiempo
-    time_new = tiempo [0]
     global pause
     global factor
     while pause == False:
