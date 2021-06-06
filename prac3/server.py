@@ -143,8 +143,9 @@ def sendBookInfo(connection):
 # and puts the data into the corresponding StringVar for clocks update
 
 def createClientThread(connection, c):
-    global tiempo
+   
     while True:
+        global tiempo
         data = c.recv(1024)
         print(data)
         if(connection != 3):
@@ -293,10 +294,10 @@ def sendRequestHours(request):
 
 def reciveTiempo():
     global parar4
-    global tiempo
     global factor
     global pause
     while True:
+        global tiempo
         if parar4 == 0:
         #receiving book
         # Creating and starting the socket-listening thread
@@ -413,6 +414,7 @@ threadSendRequest.start()
 parar4=0
 threadReceive=threading.Thread(target=lambda: reciveTiempo())
 threadReceive.start()
+
 
 # Creating and starting the socket-listening thread
 parar5=0
