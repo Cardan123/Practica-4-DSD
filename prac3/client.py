@@ -81,7 +81,7 @@ def runClock():
         time_new=validateHour(time_new.split(':')[0]+':'+time_new.split(':')[1]+':'+str(int(time_new.split(':')[2])+1).zfill(2))
         sock4.send(time_new.encode('ascii'))
         sock.send(time_new.encode('ascii'))
-        tiempo[0] = time_new
+        tiempo = time_new
         txtVarClk.set(time_new)
         sleep(1*factor)
 
