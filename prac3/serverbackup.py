@@ -271,7 +271,7 @@ def sendRequestHours(request):
     global factor
     while pause==False:
         if parar3 == 0:
-            sleep(10)
+            sleep(60)
             sock2.send(request.encode('ascii'))
             sleep(1*factor)
         else:
@@ -286,7 +286,7 @@ def reciveTiempo():
         #receiving book
         # Creating and starting the socket-listening thread
             global tiempo
-            sleep(10)
+            sleep(60)
             tiempo = pickle.loads(sock2.recv(1024))
             print(tiempo)
         else:
