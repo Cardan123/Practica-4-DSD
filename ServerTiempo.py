@@ -99,7 +99,7 @@ def sendBookInfo(connection):
     print(tiempoSincro)
     dataTiempo = pickle.dumps(tiempoSincro)
     clientConnectionsBooks[connection].send(dataTiempo)
-    mycursor.execute(sqlformula,tiempo[0])
+    mycursor.execute(sqlformula,str(tiempo[0]))
     mydb.commit()
     sleep(1*factor)
     
