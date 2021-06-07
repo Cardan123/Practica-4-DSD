@@ -194,78 +194,63 @@ def createResetThread(connection2, c3):
 
 
 def acceptConnections():
-    global parar5
-    
     numOfConnections = 0
-    host = '192.168.1.64'  # modify the ip addr as you need
+    host = '192.168.3.3'  # modify the ip addr as you need
     port = 12345
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.bind((host, port))
     clientSocket.listen(5)
     while True:
-        if parar5 == 0:
-            c, addr = clientSocket.accept()
-            if(addr[0] not in clientIPs and numOfConnections <= 3):
-                clientIPs.append(addr[0])
-                newThread = threading.Thread(
-                    target=lambda: createClientThread(numOfConnections, c))
-                clientThreads.append(newThread)
-                clientThreads[numOfConnections].start()
-                clientConnections.append(c)
-                numOfConnections += 1
-            clientSocket.close()
-        else:
-            break
+        c, addr = clientSocket.accept()
+        if(addr[0] not in clientIPs and numOfConnections <= 3):
+            clientIPs.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createClientThread(numOfConnections, c))
+            clientThreads.append(newThread)
+            clientThreads[numOfConnections].start()
+            clientConnections.append(c)
+            numOfConnections += 1
+    clientSocket.close()
 
 
 def acceptRequestBooks():
-    global parar6
-    
     numOfConnections2 = 0
-    hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
+    hostRequestBook = '192.168.3.3'  # modify the ip addr as you need
     portRequestBook = 12346
     clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket.bind((hostRequestBook, portRequestBook))
     clientBookSocket.listen(5)
     while True:
-        if parar6 == 0:
-            c, addr = clientBookSocket.accept()
-            if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
-                clientIPsBooks.append(addr[0])
-                newThread = threading.Thread(
-                    target=lambda: createRequestThread(numOfConnections2, c))
-                clientThreadsBook.append(newThread)
-                clientThreadsBook[numOfConnections2].start()
-                clientConnectionsBooks.append(c)
-                numOfConnections2 += 1
-            clientBookSocket.close()
-        else:
-            break
+        c, addr = clientBookSocket.accept()
+        if(addr[0] not in clientIPsBooks and numOfConnections2 <= 3):
+            clientIPsBooks.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createRequestThread(numOfConnections2, c))
+            clientThreadsBook.append(newThread)
+            clientThreadsBook[numOfConnections2].start()
+            clientConnectionsBooks.append(c)
+            numOfConnections2 += 1
+    clientBookSocket.close()
 
 
 def acceptResetBooks():
-    global parar7
-    
     numOfConnections3 = 0
-    hostRequestBook3 = '192.168.1.64'  # modify the ip addr as you need
+    hostRequestBook3 = '192.168.3.3'  # modify the ip addr as you need
     portRequestBook3 = 12341
     clientBookSocket3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket3.bind((hostRequestBook3, portRequestBook3))
     clientBookSocket3.listen(5)
     while True:
-        if parar7 == 0:
-            c, addr = clientBookSocket3.accept()
-            if(addr[0] not in clientIPsBooks3 and numOfConnections3 <= 3):
-                clientIPsBooks3.append(addr[0])
-                newThread = threading.Thread(
-                    target=lambda: createResetThread(numOfConnections3, c))
-                clientThreadsBook3.append(newThread)
-                clientThreadsBook3[numOfConnections3].start()
-                clientConnectionsBooks3.append(c)
-                numOfConnections3 += 1
-            clientBookSocket3.close()
-        else:
-            break
+        c, addr = clientBookSocket3.accept()
+        if(addr[0] not in clientIPsBooks3 and numOfConnections3 <= 3):
+            clientIPsBooks3.append(addr[0])
+            newThread = threading.Thread(
+                target=lambda: createResetThread(numOfConnections3, c))
+            clientThreadsBook3.append(newThread)
+            clientThreadsBook3[numOfConnections3].start()
+            clientConnectionsBooks3.append(c)
+            numOfConnections3 += 1
+    clientBookSocket3.close()
 
 
 ##ServerTiempo
