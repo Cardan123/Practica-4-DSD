@@ -195,7 +195,7 @@ def createResetThread(connection2, c3):
 
 def acceptConnections():
     numOfConnections = 0
-    host = '192.168.3.3'  # modify the ip addr as you need
+    host = '192.168.1.64'  # modify the ip addr as you need
     port = 12345
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.bind((host, port))
@@ -215,7 +215,7 @@ def acceptConnections():
 
 def acceptRequestBooks():
     numOfConnections2 = 0
-    hostRequestBook = '192.168.3.3'  # modify the ip addr as you need
+    hostRequestBook = '192.168.1.64'  # modify the ip addr as you need
     portRequestBook = 12346
     clientBookSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket.bind((hostRequestBook, portRequestBook))
@@ -235,7 +235,7 @@ def acceptRequestBooks():
 
 def acceptResetBooks():
     numOfConnections3 = 0
-    hostRequestBook3 = '192.168.3.3'  # modify the ip addr as you need
+    hostRequestBook3 = '192.168.1.64'  # modify the ip addr as you need
     portRequestBook3 = 12341
     clientBookSocket3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientBookSocket3.bind((hostRequestBook3, portRequestBook3))

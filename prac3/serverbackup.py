@@ -251,6 +251,7 @@ def acceptResetBooks():
     clientBookSocket3.close()
 
 
+
 ##ServerTiempo
 def sendTiempo(hour):
     global parar2
