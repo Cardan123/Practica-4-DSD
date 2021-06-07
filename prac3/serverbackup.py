@@ -17,7 +17,6 @@ import os
 import psycopg2
 
 #MAIN SERVER
-json_filename = 'books.json'
 clientThreads = []  # List of client threads
 clientIPs = []  # List of client IPs
 clientConnections = []  # List of clients connection tuple
@@ -25,16 +24,17 @@ clientClockSpeeds = [0, 0, 0, 0]  # Speed of each clock
 masterClockSpeed = 0
 factor = 1.0
 
+#DATA FROM BOOKS REQUEST
 clientThreadsBook = []  # List of client threads
 clientIPsBooks = []  # List of client IPs
 clientConnectionsBooks = []  # List of clients connection tuple
 factor2 = 1.0
 pause = False  # Pause flag fors master clock
 
-
-clientIPsBooks3 = []  # List of client IPs
-clientConnectionsBooks3 = []  # List of clients connection tuple
-clientThreadsBook3 = []  # List of client threads
+#DATA FROM RESET REQUEST
+clientIPsReset = []  # List of client IPs
+clientConnectionsReset = []  # List of clients connection tuple
+clientThreadsReset = []  # List of client threads
 
 host='192.168.1.65'  #modify the ip addr as you need (server that gives the HOUR)
 port=12352          #(MAIN SERVER, port that gives hour)
